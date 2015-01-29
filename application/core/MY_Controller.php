@@ -18,15 +18,24 @@ class Application extends CI_Controller {
         $this->data['title'] = 'Plenty of Geeks';    // our default title
         $this->errors = array();
         $this->data['pageTitle'] = 'Welcome';   // our default page
+        $this->data['menu_choices'] = array(
+            'menudata' => array(
+                array('name' => 'Home', 'link' => '/Welcome'),
+                array('name' => 'Post', 'link' => '/Post'),
+                array('name' => 'About', 'link' => '/About'),
+                array('name' => 'Contact', 'link' => '/Contact'),
+                )
+            );
     }
 
     /**
      * Render this page
      */
     function render() {
-        $this->data['menubar'] = $this->parser->parse('_menubar', $this->data,true);
+        $this->data['menubar'] = $this->parser->parse('_menubar', $this->data['menu_choices'], true);
         $this->data['content'] = $this->parser->parse($this->data['pagebody'], $this->data, true);
-
+        $this->data['sidebar'] = $this->parser->parse('_sidebar', $this->data, true);
+        
         // finally, build the browser page!
         $this->data['data'] = &$this->data;
         $this->parser->parse('_template', $this->data);
