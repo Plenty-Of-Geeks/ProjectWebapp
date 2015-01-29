@@ -6,10 +6,13 @@
  * and open the template in the editor.
  */
 
-?>
+class About extends Application {
 
-<ul>
-    {menudata}
-        <li><a href="{link}">{name}</a></li>
-    {/menudata}
-</ul>
+    public function index()
+	{
+		$this->data['pagebody'] = 'welcome';
+                $this->render();
+	}   
+
+        
+}

@@ -5,11 +5,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 ?>
 
-<ul>
-    {menudata}
-        <li><a href="{link}">{name}</a></li>
-    {/menudata}
-</ul>
+
+
+
+<section id="content">
+    <article>
+        <h2>Introduction Plenty of Geeks</h2>
+             
+    <p>Welcome to Plenty of Geeks</p>	
+
+    </article>      
+</section>
+
+
+

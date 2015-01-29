@@ -30,7 +30,7 @@ License: Creative Commons Attribution
     <header>
 	<div class="width">
     		<h1><a href="/">Plenty of <span>Geeks</span></a></h1>
-        	<h2>your website slogan here</h2>
+        	<h2>Connecting ideas.</h2>
 	</div>
     </header>
     <nav>
@@ -43,6 +43,12 @@ License: Creative Commons Attribution
     <div id="body" class="width">
         {content}
     </div>
+    
+    <aside class="sidebar">
+        {sidebar}
+    </aside>
+<div class="clear"></div>
+    
     <footer>
         <div class="footer-content width">
             <ul>
@@ -75,8 +81,8 @@ License: Creative Commons Attribution
             <div class="clear"></div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; YourSite 2013. <a href="http://zypopwebtemplates.com/">Free CSS Website Templates</a> by ZyPOP</p>
-         </div>
+            <p>&copy; Plenty of Geeks 2015. <a href="http://zypopwebtemplates.com/">Free CSS Website Templates</a> by ZyPOP</p>
+        </div>
     </footer>
 </div>
 </body>
