@@ -205,8 +205,14 @@ li ol, li ul {
 }
 
 .width {
-	width: 960px;
+	width: 50%;
 	margin: 0 auto;
+}
+
+.content_width
+{
+    width:65%;
+    margin-left:10%;
 }
 
 #container {

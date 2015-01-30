@@ -40,7 +40,7 @@ License: Creative Commons Attribution
     </nav>
 
 
-    <div id="body" class="width">
+    <div  class="content_width">
         {content}
     </div>
     
