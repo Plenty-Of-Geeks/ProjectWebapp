@@ -29,7 +29,7 @@ License: Creative Commons Attribution
 <div id="container">
     <header>
 	<div class="width">
-    		<h1><a href="/">Plenty of <span>Geeks</span></a></h1>
+    		<h1><a href="/" style="color:buttonface">Plenty of <span>Geeks</span></a></h1>
         	<h2>Connecting ideas.</h2>
 	</div>
     </header>
