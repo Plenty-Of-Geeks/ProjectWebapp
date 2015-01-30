@@ -14,10 +14,10 @@
     <article>
         <h2>Post a new Quest</h2>
              
-    <p>Welcome to Plenty of Geeks</p>	
+        <a href="#" class="button">Create A Post</a>
+    </article>
 
-    <a href ="/MockQuest">Hello</a>
-    
+    {latestposts}
     
     </article>      
 </section>

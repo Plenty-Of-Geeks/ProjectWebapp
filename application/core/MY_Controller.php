@@ -42,7 +42,6 @@ class Application extends CI_Controller {
         $this->data['content'] = $this->parser->parse($this->data['pagebody'], $this->data, true);
         $this->data['sidebar'] = $this->parser->parse('_sidebar', $this->data['sidebar_choices'], true);
         
-        
         // finally, build the browser page!
         $this->data['data'] = &$this->data;
         $this->parser->parse('_template', $this->data);

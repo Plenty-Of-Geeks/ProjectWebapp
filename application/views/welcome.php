@@ -17,10 +17,8 @@
     <p>Welcome to Plenty of Geeks</p>	
     </article>      
     <article>
-        <table>
-            <h3>Latest Posts</h3>
-            {latestposts}
-        </table>
+        <h3>Latest Posts</h3>
+        {latestposts}
     </article>
 </section>
 

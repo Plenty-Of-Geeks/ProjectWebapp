@@ -8,10 +8,54 @@
 
 ?>
 
+<style>
+    .wheatBox{
+        box-shadow: 5px 5px 5px 5px;
+        border-radius: 5px;
+        padding: 2px;
+        margin-bottom: 5%;
+        background: wheat;
+        width: 100%;
+    }
+    
+    .wheatBox.desc{
+        width: 50%;
+    }
+    
+    .titleBox{
+        text-align: center;
+    }
+    
+    #quest{
+        
+    }
+    
+    #TeamCountBox{
+        text-align: center;
+    }
+</style>
+
 {posts}
-<h4>{title}</h4>
-            <p> {content} <p>
-            <a href="#" class="button">Read more</a>
-            <a href="#" class="button">Comments</a>
-            <a href="#" class="button">Take Up Project</a>
+<section id="content">
+    <div id="quest" class="wheatBox">
+        <div class="titleBox">
+            <h1 id="title">{title}</h1>
+            <h3>Quest Giver: {poster}</h3>
+        </div>
+        <hr />
+        <div class="desc">
+            <h2>Description:</h2>
+            <p>
+            {content}
+            </p>
+        </div>
+        <hr />
+        <div id="TeamCountBox">
+            Party: {teamCount} / {maxTeamCount}
+        </div>
+        <a href="#" class="button">Read more</a>
+        <a href="#" class="button">Comments</a>
+        <a href="#" class="button">Join</a>
+    </div>
+</section>                                                                                                                                                      
 {/posts}
