@@ -12,11 +12,9 @@
     <li>
          <h4>Categories</h4>
          <ul>
-             <li><a href="index.html">Home Page</a></li>
-             <li><a href="examples.html">Style Examples</a></li>
-             <li><a href="#">Commodo vestibulum sem mattis</a></li>
-             <li><a href="#">Sed aliquam libero ut velit bibendum</a></li>
-             <li><a href="#">Maecenas condimentum velit vitae</a></li>
+             {sidebardata}
+                <li><a href="{link}">{name}</a></li>
+             {/sidebardata} 
          </ul>
      </li>
 
