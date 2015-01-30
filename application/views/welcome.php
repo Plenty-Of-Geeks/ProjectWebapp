@@ -15,8 +15,11 @@
         <h2>Introduction Plenty of Geeks</h2>
              
     <p>Welcome to Plenty of Geeks</p>	
-
     </article>      
+    <article>
+        <h3>Latest Posts</h3>
+        {latestposts}
+    </article>
 </section>
 
 

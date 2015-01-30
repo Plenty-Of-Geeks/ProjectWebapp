@@ -32,45 +32,30 @@
  * @copyright	Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
  * @link	http://codeigniter.com
- * @since	Version 1.0.0
+ * @since	Version 3.0.0
  * @filesource
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
+?>
 
-class Welcome extends Application {
+A PHP Error was encountered
 
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see http://codeigniter.com/user_guide/general/urls.html
-	 */
-    
-        public function __construct() {
-            parent::__construct();
-        }
-    
-	public function index()
-	{
-		$this->data['pagebody'] = 'welcome';
-                
-                /* Get Latest Posts */
-                $sourcePosts = $this->posts->all();
-                
-                $this->data['latestposts'] = $this->parser->parse('_latestposts', $sourcePosts, true);
-                
-                $this->render();
-	}
-}
+Severity: <?php echo $severity;?>
+Message:  <?php echo $message;?>
+Filename: <?php echo $filepath;?>
+Line Number: <?php echo $line;?>
 
-/* End of file welcome.php */
-/* Location: ./application/controllers/Welcome.php */
+<?php if (defined('SHOW_DEBUG_BACKTRACE') && SHOW_DEBUG_BACKTRACE === TRUE): ?>
+
+Backtrace:
+	<?php foreach (debug_backtrace() as $error): ?>
+		<?php if (isset($error['file']) && strpos($error['file'], realpath(BASEPATH)) !== 0): ?>
+
+	File: <?php echo $error['file'];?>
+	Line: <?php echo $error['line'];?>
+	Function: <?php echo $error['function'];?>
+
+		<?php endif ?>
+
+	<?php endforeach ?>
+<?php endif ?>
