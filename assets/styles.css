@@ -210,12 +210,13 @@ li ol, li ul {
 }
 
 #container {
-	background-color: #fff;
+
+	background-color: #eee;
 }
 
 header {
 	padding: 20px 2px;
-	background: #fff;
+	background: #100;
 	margin: 0 auto;
 	text-align:left;
 }
@@ -242,7 +243,7 @@ header h2 {
 }
 
 nav {
-	background-color: #222;
+	background-color: #112;
 	border-bottom: 5px solid #00A0EB;
 	height: 45px;
 }
@@ -281,6 +282,7 @@ nav ul li.selected a:hover {
 
 nav ul li a:hover {
 	color: #eee;
+	background-color: #00A0EB;
 	text-decoration: none;
 }
 
