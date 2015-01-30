@@ -43,10 +43,11 @@ License: Creative Commons Attribution
     <div  class="content_width">
         {content}
     </div>
-    
+    <!--
     <aside class="sidebar">
         {sidebar}
     </aside>
+    -->
 <div class="clear"></div>
     
     <footer>
