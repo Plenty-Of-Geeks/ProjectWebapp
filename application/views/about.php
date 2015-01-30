@@ -62,8 +62,19 @@
         and all you want to do is share a great video game idea</p>
         <p><strong>This is the place for you </strong></p>
         
-        <p>Each user profile contains a small list of their  </p>
+        <p>Each user profile contains a small list of their skills
+        this can be the programming languages they are familiar with,
+        the 3D modeling programs they can use ect. It could be as simple as
+        one word descriptions of the users specialties such as "Story Board Writer"
+        or "Retro Artist"</p>
         
+        <p>In addition to the skill list, each user profile has a small section
+        for them to list their achievements relative to the game design world.
+        This could be anything from educational credentials to previous projects.</p>
+        
+        <p>At the top of each user profile page is space allocated for the user
+        to write a few sentences describing what kind of project they are looking
+        to work on and at the bottom displays the most recent posts that user has created.</p>
         
    	
     </article>      
