@@ -16,10 +16,10 @@
              
     <p>Welcome to Plenty of Geeks</p>	
     </article>      
-    <article>
+    <div>
         <h3>Latest Posts</h3>
         {latestposts}
-    </article>
+    </div>
 </section>
 
 
