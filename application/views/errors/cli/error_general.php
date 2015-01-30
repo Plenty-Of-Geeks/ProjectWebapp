@@ -37,40 +37,8 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Welcome extends Application {
-
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see http://codeigniter.com/user_guide/general/urls.html
-	 */
-    
-        public function __construct() {
-            parent::__construct();
-        }
-    
-	public function index()
-	{
-		$this->data['pagebody'] = 'welcome';
-                
-                /* Get Latest Posts */
-                $sourcePosts = $this->posts->all();
-                
-                $this->data['latestposts'] = $this->parser->parse('_latestposts', $sourcePosts, true);
-                
-                $this->render();
-	}
-}
-
-/* End of file welcome.php */
-/* Location: ./application/controllers/Welcome.php */
+echo "\nERROR: ",
+	$heading,
+	"\n\n",
+	$message,
+	"\n\n";

@@ -12,11 +12,9 @@
     <li>
          <h4>Categories</h4>
          <ul>
-             <li><a href="index.html">Home Page</a></li>
-             <li><a href="examples.html">Style Examples</a></li>
-             <li><a href="#">Commodo vestibulum sem mattis</a></li>
-             <li><a href="#">Sed aliquam libero ut velit bibendum</a></li>
-             <li><a href="#">Maecenas condimentum velit vitae</a></li>
+             {sidebardata}
+                <li><a href="{link}">{name}</a></li>
+             {/sidebardata} 
          </ul>
      </li>
 
@@ -24,7 +22,8 @@
          <h4>About us</h4>
          <ul>
              <li class="text">
-                     <p style="margin: 0;">Aenean nec massa a tortor auctor sodales sed a dolor. Duis vitae lorem sem. Proin at velit vel arcu pretium luctus. 					<a href="#" class="readmore">Read More &raquo;</a></p>
+                     <p style="margin: 0;">Plenty of Geeks is a medium used to connect Game Designers and Game Programmers.
+                         <a href="/About" class="readmore">Read More &raquo;</a></p>
              </li>
          </ul>
      </li>
