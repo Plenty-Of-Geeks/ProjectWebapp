@@ -40,13 +40,14 @@ License: Creative Commons Attribution
     </nav>
 
 
-    <div id="body" class="width">
+    <div  class="content_width">
         {content}
     </div>
-    
+    <!--
     <aside class="sidebar">
         {sidebar}
     </aside>
+    -->
 <div class="clear"></div>
     
     <footer>
