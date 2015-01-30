@@ -10,7 +10,9 @@
 <section id="content">
     <article>
         <h2>About Plenty of Geeks</h2>
-             
+        
+        <img src="../assets/web_sitemap.jpg"> 
+        
         <p><strong>Plenty of Geeks is a medium used to connect Game Designers and Game Programmers</strong></p>
     
     <p>Often many Game Designers have great video game ideas that go un-pursued 
