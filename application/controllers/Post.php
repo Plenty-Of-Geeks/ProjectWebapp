@@ -11,6 +11,12 @@ class Post extends Application {
     public function index()
 	{
 		$this->data['pagebody'] = 'post';
+                
+                /* Get Latest Posts */
+                $sourcePosts = $this->posts->all();
+                
+                $this->data['latestposts'] = $this->parser->parse('_latestposts', $sourcePosts, true);
+                
                 $this->render();
 	}   
 
