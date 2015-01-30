@@ -17,12 +17,16 @@
     }
     
     
-    #title{
+    .titleBox{
         text-align: center;
     }
     
     #quest{
         
+    }
+    
+    #TeamCountBox{
+        text-align: center;
     }
 </style>
 
@@ -30,18 +34,24 @@
 
 
 <section id="content">
-    <div id="title" class="wheatBox">
-        <h1>This is a mock quest</h1>
-        <h3>Quest Giver: {poster}</h3>
+    <div id="quest" class="wheatBox">
+        <div class="titleBox">
+            <h1 id="title">MockQuest Title</h1>
+            <h3>Quest Giver: {poster}</h3>
+        </div>
+        <hr />
+        <div id="desc">
+            <h2>Description:</h2>
+            <pre>
+            Main character is a farmer, you farm all day. Oh what fun!!!
+            </pre>
+        </div>
+        <hr />
+        <div id="TeamCountBox">
+            Party: {teamCount} / {maxTeamCount}
+        </div>
     </div>
     
-    <div id="quest" class="wheatBox">
-        
-        <div>
-            <h3>Details:</h3>
-
-        </div>    
-    </div>  
 </section>
 
 
