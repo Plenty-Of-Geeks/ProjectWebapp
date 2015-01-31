@@ -24,6 +24,13 @@ class Posts extends CI_Model
                 'poster' => 'Real User',
                 'teamCount' => '12',
                 'maxTeamCount' => '13',),
+            array(  'title' => 'Worst Project on this Site',
+                'content' => 'Do not take up this project.  It is way over-scoped '
+                . 'and will never succeed.  The team members are difficult to work '
+                . 'with, and there is no leadership at all.',
+                'poster' => 'Bad User',
+                'teamCount' => '3',
+                'maxTeamCount' =>'7'),
         )    
     );
     
