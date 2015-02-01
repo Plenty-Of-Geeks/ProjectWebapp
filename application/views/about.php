@@ -10,7 +10,9 @@
 <section id="content">
     <article>
         <h2>About Plenty of Geeks</h2>
-        
+        <div>
+            <a href="../assets/PlentyOfGeeks_Document_A1.docx">Document with Project Description Here</a>
+        </div>
         <img src="../assets/web_sitemap.jpg"> 
         
         <p><strong>Plenty of Geeks is a medium used to connect Game Designers and Game Programmers</strong></p>
