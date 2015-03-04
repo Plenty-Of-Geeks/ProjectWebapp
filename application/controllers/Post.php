@@ -15,7 +15,11 @@ class Post extends Application {
                 /* Get Latest Posts */
                 $sourcePosts = $this->posts->all();
                 
-                $this->data['latestposts'] = $this->parser->parse('_latestposts', $sourcePosts, true);
+                $this->data['posts'] = $sourcePosts;
+                
+                //$this->data['latestposts'] = '_latestposts';
+                
+                $this->data['latestposts'] = $this->parser->parse('_latestposts', $this->data, true);
                 
                 $this->render();
 	}   
