@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-class Posts extends CI_Model
+class Posts extends MY_Model
 {
     var $data = array(
         'posts' => array(
@@ -36,16 +36,16 @@ class Posts extends CI_Model
     
     // Constructor
     public function __construct() {
-        parent::__construct();
+        parent::__construct('posts', 'post_id');
     }
     
-    public function get($postNumber)
+    public function get_old($postNumber)
     {
         return $this->data[$postNumber];
     }
     
-    // retrieve all the posts
-    public function all() {
+    public function all_old()
+    {
         return $this->data;
     }
 }
