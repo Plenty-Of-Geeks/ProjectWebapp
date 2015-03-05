@@ -6,25 +6,25 @@
  * and open the template in the editor.
  */
 
-class CreatePost extends Application
+class CreateTeam extends Application
 {
     public function __construct() 
     {
         parent::__construct();
         $this->load->helper('formfields');
-        $this->load->model('posts');
+        $this->load->model('teams');
     }
     
     public function index()
     {
-        $this->data['pagebody'] = 'createpost';
+        $this->data['pagebody'] = 'createteam';
 
-        $post = $this->posts->create();
-        $this->data['title']   = makeTextField('Title', 'title', $post->title); 
-        $this->data['content'] = makeTextField('Content', 'content', $post->content);
+        $team = $this->teams->create();
+        $this->data['team_name']   = makeTextField('Team Name', 'team_name', $team->name); 
+        $this->data['max_team_count'] = makeTextField('Max Number of Members', 'max_team_count', $team->max_team_count);
         
         $this->data['fsubmit'] = makeSubmitButton( 
-                'Add Post', 
+                'Create Team', 
                 "Click here to validate the post data", 
                 'btn-success'); 
         
@@ -33,20 +33,20 @@ class CreatePost extends Application
     
     public function confirm()
     {
-        $record = $this->posts->create();
+        $record = $this->teams->create();
         // Extract submitted fields
-        $record->title = $this->input->post('title');
-        $record->content = $this->input->post('content');
-        
+        $record->name = $this->input->post('team_name');
+        $record->max_team_count = $this->input->post('max_team_count');
+        $record->team_count = 1;
         
         // Save stuff
-        if (empty($record->post_id))
+        if (empty($record->team_id))
         {
-            $this->posts->add($record);
+            $this->teams->add($record);
         }
         else
         {
-            $this->posts->update($record);
+            $this->teams->update($record);
         }
         redirect('/Post');
     }

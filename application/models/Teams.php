@@ -6,10 +6,13 @@
  * and open the template in the editor.
  */
 
-class Posts extends MY_Model
-{   
-    // Constructor
-    public function __construct() {
-        parent::__construct('posts', 'post_id');
+class Teams extends MY_Model
+{
+    /* Constructor */
+    public function __construct()
+    {
+        parent::__construct('teams', 'team_id');
     }
+    
+    
 }
