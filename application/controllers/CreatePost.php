@@ -45,6 +45,8 @@ class CreatePost extends Application
         $team = $this->teams->create();
         $team->team_name = $this->input->post('team_name');
         $team->max_team_count = $this->input->post('max_team_count');
+        $team->team_count = 1;
+        $team->user_id1 = $_SESSION['user_id'];
         
         if (empty($team->team_id))
         {
