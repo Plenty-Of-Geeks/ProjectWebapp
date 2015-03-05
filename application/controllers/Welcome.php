@@ -65,8 +65,9 @@ class Welcome extends Application {
                 
                 /* Get Latest Posts */
                 $sourcePosts = $this->posts->all();
+                $this->data['posts'] = $sourcePosts;
                 
-                $this->data['latestposts'] = $this->parser->parse('_latestposts', $sourcePosts, true);
+                $this->data['latestposts'] = $this->parser->parse('_latestposts', $this->data, true);
                 
                 $this->render();
 	}
