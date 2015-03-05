@@ -10,11 +10,11 @@
 
 
 
-<section id="content">
+<section id="content" >
     <article>
         <h2>Post a new Quest</h2>
              
-        <a href="/CreatePost" class="button">Create A Post</a>
+        <a href="/Post/create" class="button">Create A Post</a>
     </article>
 
     {latestposts}

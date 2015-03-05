@@ -58,7 +58,16 @@
    }
    
    .button{
-       margin: 0.1em;
+        background-color: #00A0EB;
+        border-radius: 5px 5px 5px 5px;
+        color: #FFFFFF;
+        display: inline-block;
+        font-size: 13px;
+        font-weight: bold;
+        padding: 8px 15px;
+        text-decoration: none;
+        text-transform: uppercase;
+        margin: 0.1em;
    }
 </style>
 <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
@@ -71,13 +80,10 @@
         
     }
     function toggle(id){
-        if(document.getElementById("post" + id).style.display == "none")
-            document.getElementById("post" + id).style.display = "block";
         if(document.getElementById("post" + id).style.display == "block")
             document.getElementById("post" + id).style.display = "none";
-        
-        
-        
+        else
+            document.getElementById("post" + id).style.display = "block";
     }
 </script>
 
@@ -104,9 +110,12 @@
                 Party: {teamCount} / {maxTeamCount}
             </div>
             <div class='center'>
-                <a href="#" class="button" onclick='openDesc({post_id})'>Read more</a>
-                <a href="#" class="button">Comments</a>
-                <a href="#" class="button">Join</a>
+                <form action="/Post/comment" method="post">
+                    <button class="button" onclick='openDesc({post_id})'>Read more</button>
+                    <input name='postId' value='{post_id}' hidden="true" />
+                    <button type='submit' class="button">Comments</button>
+                    <button class="button">Join</button>
+                </form>
             </div>
     </div>
 </div>                                                                                                                                                      
