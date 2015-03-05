@@ -21,9 +21,10 @@ class Application extends CI_Controller {
         $this->data['menu_choices'] = array(
             'menudata' => array(
                     array('name' => 'Home', 'link' => '/Welcome'),
-                    array('name' => 'Post', 'link' => '/Post'),
+                    array('name' => 'Posts', 'link' => '/Post'),
                     array('name' => 'About', 'link' => '/About'),
                     array('name' => 'Contact', 'link' => '/Contact'),
+                    array('name' => 'Sign In', 'link' => '/SignIn'),
                 )
         );
         $this->data['sidebar_choices'] = array(
