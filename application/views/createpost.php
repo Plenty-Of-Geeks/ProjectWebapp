@@ -3,6 +3,8 @@
     <form action="/CreatePost/confirm" method="post">
     {title}
     {content}
+    {team_name}
+    {max_team_count}
     {fsubmit}
     </form> 
 </section>

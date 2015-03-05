@@ -77,7 +77,7 @@
     <div id="quest" class="wheatBox bobbing">
         <div class="titleBox" onclick='openDesc()'>
             <h1 id="title">{title}</h1>
-            <h3>Quest Giver: {poster}</h3>
+            <h3>Quest Giver: {username}</h3>
         </div>
             <hr />
         <div id='a' class="questInfo">
@@ -90,7 +90,7 @@
         </div>
             <hr />
             <div id="TeamCountBox">
-                Party: {teamCount} / {maxTeamCount}
+                Party: {team_count} / {max_team_count}
             </div>
             <div class='center'>
                 <a href="#" class="button" onclick='openDesc()'>Read more</a>

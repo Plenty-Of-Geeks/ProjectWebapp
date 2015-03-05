@@ -65,7 +65,7 @@ class Welcome extends Application {
 		$this->data['pagebody'] = 'welcome';
                 
                 /* Get Latest Posts */                
-                $this->data['posts'] = $this->posts->all();
+                $this->data['posts'] = $this->posts->get_all_posts();
                 
                 $this->data['latestposts'] = $this->parser->parse('_latestposts', $this->data, true);
                 

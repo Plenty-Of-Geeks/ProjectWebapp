@@ -32,5 +32,28 @@ class SignIn extends Application
          
         $this->render();
     }
+    
+    public function confirm()
+    {
+        $users = $this->users->some('username', $this->input->post('username'));
+        foreach ($users as $user)
+        {
+            if ($user->password == $this->input->post('password'))
+            {
+                $_SESSION['username'] = $user->username;
+                $_SESSION['user_id'] = $user->user_id;
+                redirect('/Post');
+            }
+        }
+       
+        redirect('/Welcome');
+    }
+    
+    public function logout()
+    {
+        unset($_SESSION['username']);
+        unset($_SESSION['user_id']);
+        redirect('/Welcome');
+    }
 }
 
