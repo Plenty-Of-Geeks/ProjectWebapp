@@ -16,31 +16,43 @@ class Post extends Application {
         $this->load->model('comments');
         $this->load->model('teams');
         $this->load->helpers('formfields');
+        $this->load->library('form_validation');
     }
     public function index()
     {
         $this->load->model('posts');
-            $this->data['pagebody'] = 'post';
+        $this->data['pagebody'] = 'post';
 
-            /* Get Latest Posts */
-            $this->data['posts'] = $this->posts->get_all_posts();
+        /* Get Latest Posts */
+        $this->data['posts'] = $this->posts->get_all_posts();
 
-            $this->data['latestposts'] = $this->parser->parse('_latestposts', $this->data, true);
+        $this->data['latestposts'] = $this->parser->parse('_latestposts', $this->data, true);
 
-            $this->render();
+        $this->render();
     }
     
-    public function create()
+    public function create_post()
     {
+        if (!isset($_SESSION['user_id']))
+        {
+            redirect('../SignIn');
+        }
+        
         $this->data['pagebody'] = 'createpost';
-
+ 
+        /* Create Input Field */
         $post = $this->posts->create();
         $team = $this->teams->create();
-        $this->data['title']   = makeTextField('Title', 'title', $post->title); 
-        $this->data['content'] = makeTextField('Content', 'content', $post->content);
-        $this->data['team_name'] = makeTextField('Team Name', 'team_name', $team->team_name);
-        $this->data['max_team_count'] = makeTextField('Max Team Members', 'max_team_count', $team->max_team_count);
+        $this->data['title']   = makeTextField('Title *', 'title', $post->title); 
+        $this->data['content'] = makeTextField('Content *', 'content', $post->content);
+        $this->data['team_name'] = makeTextField('Team Name *', 'team_name', $team->team_name);
+        $this->data['max_team_count'] = makeTextField('Max Team Members *', 'max_team_count', $team->max_team_count);
         
+        if (isset($_SESSION['create_post_error']))
+        {
+            $this->data['error_message'] = $_SESSION['create_post_error'];
+        }
+
         $this->data['fsubmit'] = makeSubmitButton( 
                 'Add Post', 
                 "Click here to validate the post data", 
@@ -49,9 +61,21 @@ class Post extends Application {
         $this->render();
     }
     
-    public function confirm()
+    public function submit_post()
     {
-        $team = $this->teams->create();
+        $this->create_post_validation();
+        
+        $this->create_team_record();
+        
+        $this->create_post_record();
+        
+        unset($_SESSION['create_post_error']);
+        redirect('/Post');
+    }
+    
+    public function create_team_record()
+    {
+        $team = $this->teams->create();        
         $team->team_name = $this->input->post('team_name');
         $team->max_team_count = $this->input->post('max_team_count');
         $team->team_count = 1;
@@ -65,7 +89,10 @@ class Post extends Application {
         {
             $this->teams->update($team);
         }
-        
+    }
+    
+    public function create_post_record()
+    {
         /* Get Team ID */
         $team_id = $this->teams->get_record('team_name', $team->team_name)->team_id;
         
@@ -85,8 +112,20 @@ class Post extends Application {
         {
             $this->posts->update($post);
         }
-        
-        redirect('/Post');
+    }
+    
+    public function create_post_validation()
+    {
+        /* Form Validation */
+        $this->form_validation->set_rules('title', 'Title', 'required');
+        $this->form_validation->set_rules('content', 'Content', 'required');
+        $this->form_validation->set_rules('team_name', 'Team Name', 'required');
+        $this->form_validation->set_rules('max_team_count', 'Max Team Count', 'required');
+        if ($this->form_validation->run() == false)
+        {
+            $_SESSION['create_post_error'] = 'Missing Required Field.';
+            redirect('../Post/create_post');
+        }
     }
     
     public function comment()

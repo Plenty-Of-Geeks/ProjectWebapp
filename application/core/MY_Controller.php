@@ -38,12 +38,12 @@ class Application extends CI_Controller {
         
         if (isset($_SESSION['username']))
         {
-            array_push($this->data['menu_choices']['menudata'], array('name' => 'Account', 'link' => '/Account'));
-            array_push($this->data['menu_choices']['menudata'], array('name' => 'Logout', 'link' => '/SignIn/logout'));
+            array_push($this->data['menu_choices']['menudata'], array('name' => 'Account', 'link' => '../Account'));
+            array_push($this->data['menu_choices']['menudata'], array('name' => 'Logout', 'link' => '../SignIn/logout'));
         }
         else
         {
-            array_push($this->data['menu_choices']['menudata'], array('name' => 'Sign In', 'link' => '/SignIn'));
+            array_push($this->data['menu_choices']['menudata'], array('name' => 'Sign In', 'link' => '../SignIn'));
         }
         
         $this->data['sidebar_choices'] = array(
