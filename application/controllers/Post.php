@@ -130,11 +130,19 @@ class Post extends Application {
     
     public function comment()
     {
-        $this->data['pagebody'] = 'welcome';
-
         /* Get Selected Posts */
-        $this->data['post_id'] = $this->input->post('postId');
-        $sourcePosts = $this->posts->get($this->data['post_id']);
+        $_SESSION['currentPost'] = $this->input->post('postId');
+        
+        redirect('../Post/showPost');
+
+    }
+    
+    public function showPost()
+    {
+        $this->data['pagebody'] = 'show_post';
+        $sourcePosts = $this->posts->get($_SESSION['currentPost']);
+        
+       
         
         //print_r($sourcePosts);
         
@@ -149,30 +157,25 @@ class Post extends Application {
                 "Click here to validate the post data", 
                 'btn-success');
         
-        $this->data['latestposts'] = $this->parser->parse('_justone', $sourcePosts, true);
-        $this->data['latestposts'] .= $this->parser->parse('createcomment', $this->data, true);
+        $this->data['postInfo'] = $this->parser->parse('_justone', $sourcePosts, true);
+        $this->data['commentBox'] = $this->parser->parse('createcomment', $this->data, true);
         $this->render();
     }
     
     public function postComment()
     {
         $record = $this->comments->create();
+        
         // Extract submitted fields
         $record->post_id = $this->input->post('postId');
         $record->title   = $this->input->post('title');
         $record->content = $this->input->post('content');
+        
         // Save stuff
-        if (empty($record->comment_id))
-        {
-            $this->comments->add($record);
-        }
-        else
-        {
-            $this->comments->update($record);
-        }
+        if (empty($record->comment_id)) $this->comments->add($record); 
+        else $this->comments->update($record); 
         
-        redirect('../Post');
-        
+        redirect('../Post/showPost');
     }
         
 }
