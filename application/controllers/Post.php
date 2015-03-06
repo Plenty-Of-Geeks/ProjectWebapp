@@ -51,6 +51,11 @@ class Post extends Application {
         if (isset($_SESSION['create_post_error']))
         {
             $this->data['error_message'] = $_SESSION['create_post_error'];
+            unset($_SESSION['create_post_error']);
+        }
+        else
+        {
+            $this->data['error_message'] = '';
         }
 
         $this->data['fsubmit'] = makeSubmitButton( 
@@ -65,14 +70,28 @@ class Post extends Application {
     {
         $this->create_post_validation();
         
-        $this->create_team_record();
+        $team = $this->create_team_record();
         
-        $this->create_post_record();
-        
-        unset($_SESSION['create_post_error']);
+        $this->create_post_record($team);
+
         redirect('/Post');
     }
     
+    public function create_post_validation()
+    {
+        /* Form Validation */
+        $this->form_validation->set_rules('title', 'Title', 'required');
+        $this->form_validation->set_rules('content', 'Content', 'required');
+        $this->form_validation->set_rules('team_name', 'Team Name', 'required');
+        $this->form_validation->set_rules('max_team_count', 'Max Team Count', 'required');
+        if ($this->form_validation->run() == false)
+        {
+            $_SESSION['create_post_error'] = 'Missing Required Field.';
+            redirect('../Post/create_post');
+        }
+    }
+    
+    /* Creates and returns the team record */
     public function create_team_record()
     {
         $team = $this->teams->create();        
@@ -89,9 +108,11 @@ class Post extends Application {
         {
             $this->teams->update($team);
         }
+        
+        return $team;
     }
     
-    public function create_post_record()
+    public function create_post_record($team)
     {
         /* Get Team ID */
         $team_id = $this->teams->get_record('team_name', $team->team_name)->team_id;
@@ -111,20 +132,6 @@ class Post extends Application {
         else
         {
             $this->posts->update($post);
-        }
-    }
-    
-    public function create_post_validation()
-    {
-        /* Form Validation */
-        $this->form_validation->set_rules('title', 'Title', 'required');
-        $this->form_validation->set_rules('content', 'Content', 'required');
-        $this->form_validation->set_rules('team_name', 'Team Name', 'required');
-        $this->form_validation->set_rules('max_team_count', 'Max Team Count', 'required');
-        if ($this->form_validation->run() == false)
-        {
-            $_SESSION['create_post_error'] = 'Missing Required Field.';
-            redirect('../Post/create_post');
         }
     }
     

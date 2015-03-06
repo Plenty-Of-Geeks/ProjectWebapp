@@ -84,3 +84,8 @@ and open the template in the editor.
 .center{
     text-align:center;
 }
+
+.error_message
+{
+    color: #FF0000;
+}

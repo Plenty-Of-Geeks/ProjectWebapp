@@ -7,7 +7,7 @@
     {team_name}
     {max_team_count}
     <div>* Required Field </div>
-    <div>{error_message}</div>
+    <div class='error_message'>{error_message}</div>
     {fsubmit}
     </form> 
 </div>
