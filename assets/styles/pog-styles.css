@@ -23,30 +23,19 @@ and open the template in the editor.
     width: 100%;
 }
 
-.titleBox{
-    text-align: center;
-}
-
-#quest{
-
-}
-
-#TeamCountBox{
-    text-align: center;
-}
-
-.questInfo{
-    text-align: center;
-}
-
 .center{
     text-align: center;
-    padding: 0.5em;
 }
 
+.floatLeft{
+    float: left;
+}
+
+.desc p{
+    text-indent: 50px;
+}
 
 .content{
-   float: left;
     padding: 0em 1.5em 0em 1.5em;
     margin-bottom: 5%;
 }
@@ -69,8 +58,12 @@ and open the template in the editor.
     margin: 0.1em;
 }
 
-.halfWidth{
-    width: 50%;
+.fullWidth{
+    width: 100%;
+}
+
+.halfWidthPadded{
+    width: 44%;
 }
 
 .thirdWidth{
@@ -81,6 +74,16 @@ and open the template in the editor.
     display: none;
 }
 
-.center{
-    text-align:center;
+.padded{
+    padding: 1%;
+}
+
+.box
+{
+    border: 1px solid;
+    border-radius: 5px 5px 5px 5px;
+    box-shadow: 10px 10px 5px #888888;
+    border-color: black;
+    background-color: #00A0EB;
+    margin-top: 2em;
 }
