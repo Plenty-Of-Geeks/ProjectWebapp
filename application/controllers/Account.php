@@ -23,20 +23,7 @@ class Account extends Application
 
         
         
-        
-        /**
-        $user = $this->users->create();
-        
-        $this->data['username'] = makeTextField('Username', 'username', $user->username);
-        $this->data['password'] = makeTextField('Password', 'password', $user->password);
-        $this->data['password2'] = makeTextField('Password', 'password2', $user->password);
-        $this->data['email'] = makeTextField('Email', 'email', $user->email);
-        
-        $this->data['submit'] = makeSubmitButton( 
-                'Sign Up', 
-                "Click here to validate the user data", 
-                'btn-success'); 
-        **/
+      
         $this->render();
     }
     
@@ -48,11 +35,9 @@ class Account extends Application
          $this->data['pagebody'] = 'account_get_all_post';
          
      
-        $result = $this->posts->some('poster_id',$_SESSION['user_id']);//get_where('poster_id',$_SESSION['user_id']);
+        $result = $this->posts->get_all_post_by_poster_id($_SESSION['user_id']);
         
-        
-        print_r($_SESSION['user_id']);
-        print_r($result);
+        $this->data['posts'] = $result;      
         
         
         
