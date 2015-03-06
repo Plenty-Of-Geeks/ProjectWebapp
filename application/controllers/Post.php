@@ -91,11 +91,17 @@ class Post extends Application {
     
     public function comment()
     {
-        $this->data['pagebody'] = 'welcome';
-
         /* Get Selected Posts */
-        $this->data['post_id'] = $this->input->post('postId');
-        $sourcePosts = $this->posts->get($this->data['post_id']);
+        $_SESSION['currentPost'] = $this->input->post('postId');
+        
+        redirect('../Post/showPost');
+
+    }
+    
+    public function showPost()
+    {
+        $this->data['pagebody'] = 'post';
+        $sourcePosts = $this->posts->get($_SESSION['currentPost']);
         
         //print_r($sourcePosts);
         
@@ -132,7 +138,7 @@ class Post extends Application {
             $this->comments->update($record);
         }
         
-        redirect('../Post');
+        redirect('../Post/showPost');
         
     }
         
