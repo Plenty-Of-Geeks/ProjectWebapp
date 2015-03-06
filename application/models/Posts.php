@@ -21,4 +21,5 @@ class Posts extends MY_Model
         $query = $this->db->get($this->_tableName);
         return $query->result();
     }
+
 }
