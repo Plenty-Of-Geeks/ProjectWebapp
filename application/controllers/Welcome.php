@@ -67,7 +67,15 @@ class Welcome extends Application {
                 /* Get Latest Posts */                
                 $this->data['posts'] = $this->posts->get_all_posts();
                 
-                $this->data['latestposts'] = $this->parser->parse('_latestposts', $this->data, true);
+                 //check to see if your an admin, if so load admin controls
+                if (isset($_SESSION['admin']))
+                {
+                    $this->data['latestposts'] = $this->parser->parse('_latestpostsadmin', $this->data, true);
+                }
+                else
+                {
+                    $this->data['latestposts'] = $this->parser->parse('_latestposts', $this->data, true);
+                }
                 
                 $this->render();
 	}

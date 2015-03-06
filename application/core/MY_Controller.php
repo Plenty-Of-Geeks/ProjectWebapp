@@ -36,10 +36,17 @@ class Application extends CI_Controller {
                 )
         );
         
+        
         if (isset($_SESSION['username']))
         {
-            array_push($this->data['menu_choices']['menudata'], array('name' => 'Account', 'link' => '../Account'));
-            array_push($this->data['menu_choices']['menudata'], array('name' => 'Logout', 'link' => '../SignIn/logout'));
+            array_push($this->data['menu_choices']['menudata'], array('name' => 'Account', 'link' => '/Account'));
+            array_push($this->data['menu_choices']['menudata'], array('name' => 'Logout', 'link' => '/SignIn/logout'));
+            
+            //IF WE ARE LOGGED IN AS AN ADMIN, DISPLAY ADMIN PAGE IN MENU BAR
+            if (isset($_SESSION['admin']))
+            {
+                array_push($this->data['menu_choices']['menudata'], array('name' => 'Admin', 'link' => '/Admin'));
+            }
         }
         else
         {
