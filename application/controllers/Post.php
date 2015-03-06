@@ -15,13 +15,13 @@ class Post extends Application {
         $this->load->model('posts');
         $this->load->model('comments');
         $this->load->model('teams');
+        $this->load->model('team_members');
         $this->load->helpers('formfields');
         $this->load->library('form_validation');
     }
     
     public function index()
     {
-        $this->load->model('posts');
         $this->data['pagebody'] = 'post';
 
         /* Get Latest Posts */
@@ -112,6 +112,8 @@ class Post extends Application {
         
         $team = $this->create_team_record();
         
+        $this->create_team_member($team);
+        
         $this->create_post_record($team);
 
         $this->cleanup_post_session();
@@ -144,7 +146,7 @@ class Post extends Application {
         $team->team_name = $this->input->post('team_name');
         $team->max_team_count = $this->input->post('max_team_count');
         $team->team_count = 1;
-        $team->user_id1 = $_SESSION['user_id'];
+        
         
         if (empty($team->team_id))
         {
@@ -155,13 +157,25 @@ class Post extends Application {
             $this->teams->update($team);
         }
         
+        $team->team_id = $this->db->insert_id();
+        
+        echo "<script type='text/javascript'>alert('$team->team_id');</script>";
+        
         return $team;
+    }
+    
+    public function create_team_member($team)
+    {
+        $team_member = $this->team_members->create();
+        $team_member->user_id = $_SESSION['user_id'];
+        $team_member->team_id = $team->team_id;
+        $this->team_members->add($team_member);
     }
     
     public function create_post_record($team)
     {
         /* Get Team ID */
-        $team_id = $this->teams->get_record('team_name', $team->team_name)->team_id;
+        $team_id = $team->team_id;
         
         $post = $this->posts->create();
         // Extract submitted fields
@@ -239,4 +253,20 @@ class Post extends Application {
         redirect('../Post/showPost');
     }
         
+    public function join_team()
+    {    
+        if (!isset($_SESSION['user_id']))
+        {
+            redirect('../SignIn');
+        }
+        
+        $team_id = $this->input->post('teamId');
+        
+        $team_member = $this->team_members->create();
+        $team_member->team_id = $team_id;
+        $team_member->user_id = $_SESSION['user_id'];
+        $this->team_members->add($team_member);
+        
+        redirect('../Post');
+    }
 }

@@ -23,7 +23,10 @@
                     <button class="button" onclick='openDesc({post_id})'>Read more</button>
                     <input name='postId' value='{post_id}' hidden="true" />
                     <button type='submit' class="button">Comments</button>
-                    <button class="button">Join</button>
+                </form>
+                <form action="/Post/join_team" method="post">
+                    <input name='teamId' value='{team_id}' hidden="true" />
+                    <button type='submit' class="button">Join</button>
                 </form>
             </div>
     </div>
