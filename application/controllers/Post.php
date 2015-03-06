@@ -18,6 +18,7 @@ class Post extends Application {
         $this->load->helpers('formfields');
         $this->load->library('form_validation');
     }
+    
     public function index()
     {
         $this->load->model('posts');
@@ -40,14 +41,60 @@ class Post extends Application {
         
         $this->data['pagebody'] = 'createpost';
  
-        /* Create Input Field */
-        $post = $this->posts->create();
-        $team = $this->teams->create();
+        $this->setup_post_input_fields();
+        
+        $this->setup_error_message();
+
+        $this->data['fsubmit'] = makeSubmitButton( 
+                'Add Post', 
+                "Click here to validate the post data", 
+                'btn-success'); 
+        
+        $this->render();
+    }
+    
+    public function setup_post_input_fields()
+    {
+        /* Restore previous session */
+        $post = $this->restore_post_session($this->posts->create());
+        $team = $this->restore_team_session($this->teams->create());
+            
         $this->data['title']   = makeTextField('Title *', 'title', $post->title); 
         $this->data['content'] = makeTextField('Content *', 'content', $post->content);
         $this->data['team_name'] = makeTextField('Team Name *', 'team_name', $team->team_name);
         $this->data['max_team_count'] = makeTextField('Max Team Members *', 'max_team_count', $team->max_team_count);
+    }
+    
+    public function restore_post_session($post)
+    {
+        if (isset($_SESSION['post_title']))
+        {
+            $post->title = $_SESSION['post_title'];
+        }
+        if (isset($_SESSION['post_content']))
+        {
+            $post->content = $_SESSION['post_content'];
+        }
+
+        return $post;
+    }
+    
+    public function restore_team_session($team)
+    {
+        if (isset($_SESSION['post_team_name']))
+        {
+            $team->team_name = $_SESSION['post_team_name'];
+        }
+        if (isset($_SESSION['post_max_team_count']))
+        {
+            $team->max_team_count = $_SESSION['post_max_team_count'];
+        }
         
+        return $team;
+    }
+    
+    public function setup_error_message()
+    {
         if (isset($_SESSION['create_post_error']))
         {
             $this->data['error_message'] = $_SESSION['create_post_error'];
@@ -57,13 +104,6 @@ class Post extends Application {
         {
             $this->data['error_message'] = '';
         }
-
-        $this->data['fsubmit'] = makeSubmitButton( 
-                'Add Post', 
-                "Click here to validate the post data", 
-                'btn-success'); 
-        
-        $this->render();
     }
     
     public function submit_post()
@@ -74,6 +114,8 @@ class Post extends Application {
         
         $this->create_post_record($team);
 
+        $this->cleanup_post_session();
+        
         redirect('/Post');
     }
     
@@ -87,6 +129,10 @@ class Post extends Application {
         if ($this->form_validation->run() == false)
         {
             $_SESSION['create_post_error'] = 'Missing Required Field.';
+            $_SESSION['post_title'] = $this->input->post('title');
+            $_SESSION['post_content'] = $this->input->post('content');
+            $_SESSION['post_team_name'] = $this->input->post('team_name');
+            $_SESSION['post_max_team_count'] = $this->input->post('max_team_count');
             redirect('../Post/create_post');
         }
     }
@@ -133,6 +179,14 @@ class Post extends Application {
         {
             $this->posts->update($post);
         }
+    }
+    
+    public function cleanup_post_session()
+    {
+        unset($_SESSION['post_title']);
+        unset($_SESSION['post_content']);
+        unset($_SESSION['post_team_name']);
+        unset($_SESSION['post_max_team_count']);
     }
     
     public function comment()
