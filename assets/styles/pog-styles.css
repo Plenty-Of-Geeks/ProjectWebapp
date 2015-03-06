@@ -1,0 +1,91 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 5-Mar-2015, 5:04:13 PM
+    Author     : George
+*/
+
+
+.wheatBox{
+    //box-shadow: 5px 5px 5px 5px;
+    //border-radius: 5px;
+    //background: wheat;
+    background-image: url("../images/scroll.gif");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    padding: 1.5em;
+}
+
+.wheatBox.desc{
+    width: 100%;
+}
+
+.titleBox{
+    text-align: center;
+}
+
+#quest{
+
+}
+
+#TeamCountBox{
+    text-align: center;
+}
+
+.questInfo{
+    text-align: center;
+}
+
+.center{
+    text-align: center;
+    padding: 0.5em;
+}
+
+
+.content{
+   float: left;
+    padding: 0em 1.5em 0em 1.5em;
+    margin-bottom: 5%;
+}
+
+.content p{
+   background-color: rgba(255,255,255,0.2);
+   color: #000;
+}
+
+.button{
+    background-color: #00A0EB;
+    border-radius: 5px 5px 5px 5px;
+    color: #FFFFFF;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 8px 15px;
+    text-decoration: none;
+    text-transform: uppercase;
+    margin: 0.1em;
+}
+
+.halfWidth{
+    width: 50%;
+}
+
+.thirdWidth{
+    width: 20%;
+}
+
+.hidden{
+    display: none;
+}
+
+.center{
+    text-align:center;
+}
+
+.error_message
+{
+    color: #FF0000;
+}

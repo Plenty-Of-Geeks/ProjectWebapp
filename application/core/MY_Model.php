@@ -194,6 +194,15 @@ class MY_Model extends CI_Model implements Active_Record {
             return null;
         return $query->row();
     }
+    
+    function get_record($keyname, $keyvalue)
+    {
+        $this->db->where($keyname, $keyvalue);
+        $query = $this->db->get($this->_tableName);
+        if ($query->num_rows() < 1)
+            return null;
+        return $query->row();
+    }
 
     // Update a record in the DB
     function update($record) {
