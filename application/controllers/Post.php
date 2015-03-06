@@ -25,7 +25,16 @@ class Post extends Application {
             /* Get Latest Posts */
             $this->data['posts'] = $this->posts->get_all_posts();
 
-            $this->data['latestposts'] = $this->parser->parse('_latestposts', $this->data, true);
+
+            //check to see if your an admin, if so load admin controls
+            if (isset($_SESSION['admin']))
+            {
+                $this->data['latestposts'] = $this->parser->parse('_latestpostsadmin', $this->data, true);
+            }
+            else
+            {
+                $this->data['latestposts'] = $this->parser->parse('_latestposts', $this->data, true);
+            }
 
             $this->render();
     }
@@ -45,7 +54,7 @@ class Post extends Application {
                 'Add Post', 
                 "Click here to validate the post data", 
                 'btn-success'); 
-        
+            
         $this->render();
     }
     
@@ -98,13 +107,13 @@ class Post extends Application {
         $sourcePosts = $this->posts->get($this->data['post_id']);
         
         //print_r($sourcePosts);
-        
+        //print_r($this->input->post('postId'));
         $this->load->helper('formfields');
 
-        $post = $this->posts->create();
+        $comment = $this->comments->create();
         
-        $this->data['title']   = makeTextField('Title', 'title', $post->title); 
-        $this->data['content'] = makeTextArea('Comment', 'content', $post->content, "", -1, 25, 5, false);
+        $this->data['title']   = makeTextField('Title', 'title', $comment->title); 
+        $this->data['content'] = makeTextArea('Comment', 'content', $comment->content, "", -1, 25, 5, false);
         $this->data['fsubmit'] = makeSubmitButton( 
                 'Add Comment', 
                 "Click here to validate the post data", 
