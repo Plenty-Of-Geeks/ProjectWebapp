@@ -57,16 +57,17 @@ class Welcome extends Application {
     
         public function __construct() {
             parent::__construct();
+            $this->load->model('posts');
         }
     
 	public function index()
 	{
 		$this->data['pagebody'] = 'welcome';
                 
-                /* Get Latest Posts */
-                $sourcePosts = $this->posts->all();
+                /* Get Latest Posts */                
+                $this->data['posts'] = $this->posts->get_all_posts();
                 
-                $this->data['latestposts'] = $this->parser->parse('_latestposts', $sourcePosts, true);
+                $this->data['latestposts'] = $this->parser->parse('_latestposts', $this->data, true);
                 
                 $this->render();
 	}
