@@ -12,14 +12,4 @@ class Comments extends MY_Model
     public function __construct() {
         parent::__construct('comments', 'comment_id');
     }
-    
-    public function get_old($postNumber)
-    {
-        return $this->data[$postNumber];
-    }
-    
-    public function all_old()
-    {
-        return $this->data;
-    }
 }

@@ -13,7 +13,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Plenty of Geeks</title>
+<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
 <link rel="stylesheet" href="../assets/styles.css" type="text/css" />
+<link rel="stylesheet" href="../assets/styles/pog-styles.css" type="text/css" />
+<script src="../assets/js/pog-script.js"></script>
 <!--[if lt IE 9]>
 <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
