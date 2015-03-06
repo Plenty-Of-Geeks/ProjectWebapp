@@ -11,7 +11,7 @@
 
 
 <section id="content" >
-    <article>
+    <article class='center'>
         <h2>Post a new Quest</h2>
              
         <a href="/Post/create" class="button">Create A Post</a>
