@@ -228,22 +228,40 @@ class Post extends Application {
         //print_r($this->data['comments']);
         
         //Fill the form data for the comment box
-        $this->data['title']   = makeTextField('Title', 'title', $comment->title); 
-        $this->data['content'] = makeTextArea('Comment', 'content', $comment->content, "", -1, 25, 5, false);
-        $this->data['fsubmit'] = makeSubmitButton( 
+        if(isset($_SESSION['user_id']))
+        {
+            $this->data['title']   = makeTextField('Title', 'title', $comment->title); 
+            $this->data['content'] = makeTextArea('Comment', 'content', $comment->content, "", -1, 25, 5, false);
+        $this->data['fsubmit'] = makeSubmitButton(  
                 'Add Comment', 
                 "Click here to validate the post data", 
                 'btn-success button');
+        }
+        else
+        {
+            $this->data['title']   = ""; 
+            $this->data['content'] = "";
+            $this->data['fsubmit'] = makeSubmitButton(  
+                'SignIn', 
+                "Click here to validate the post data", 
+                'btn-success button');
+        }
         //Load the various view fragments
         $this->data['postInfo'] = $this->parser->parse('_justone', $sourcePost, true);
         $this->data['newComment'] = $this->parser->parse('createcomment', $this->data, true);
         $this->data['commentsBox'] = $this->parser->parse('commentsbox', $this->data, true);
+        
+        
+        
         
         $this->render();
     }
     
     public function postComment()
     {
+        
+        if(!isset($_SESSION['user_id'])) redirect("../SignIn");
+        
         $record = $this->comments->create();
         
         // Extract submitted fields
