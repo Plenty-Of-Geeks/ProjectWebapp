@@ -15,19 +15,27 @@ class Post extends Application {
         $this->load->model('posts');
         $this->load->model('comments');
         $this->load->model('teams');
+        $this->load->model('team_members');
         $this->load->helpers('formfields');
         $this->load->library('form_validation');
     }
     
     public function index()
     {
-        $this->load->model('posts');
         $this->data['pagebody'] = 'post';
 
         /* Get Latest Posts */
         $this->data['posts'] = $this->posts->get_all_posts();
 
-        $this->data['latestposts'] = $this->parser->parse('_latestposts', $this->data, true);
+        //check to see if your an admin, if so load admin controls
+        if (isset($_SESSION['admin']))
+        {
+            $this->data['latestposts'] = $this->parser->parse('_latestpostsadmin', $this->data, true);
+        }
+        else
+        {
+            $this->data['latestposts'] = $this->parser->parse('_latestposts', $this->data, true);
+        }
 
         $this->render();
     }
@@ -112,6 +120,8 @@ class Post extends Application {
         
         $team = $this->create_team_record();
         
+        $this->create_team_member($team);
+        
         $this->create_post_record($team);
 
         $this->cleanup_post_session();
@@ -144,7 +154,7 @@ class Post extends Application {
         $team->team_name = $this->input->post('team_name');
         $team->max_team_count = $this->input->post('max_team_count');
         $team->team_count = 1;
-        $team->user_id1 = $_SESSION['user_id'];
+        
         
         if (empty($team->team_id))
         {
@@ -155,13 +165,25 @@ class Post extends Application {
             $this->teams->update($team);
         }
         
+        $team->team_id = $this->db->insert_id();
+        
+        echo "<script type='text/javascript'>alert('$team->team_id');</script>";
+        
         return $team;
+    }
+    
+    public function create_team_member($team)
+    {
+        $team_member = $this->team_members->create();
+        $team_member->user_id = $_SESSION['user_id'];
+        $team_member->team_id = $team->team_id;
+        $this->team_members->add($team_member);
     }
     
     public function create_post_record($team)
     {
         /* Get Team ID */
-        $team_id = $this->teams->get_record('team_name', $team->team_name)->team_id;
+        $team_id = $team->team_id;
         
         $post = $this->posts->create();
         // Extract submitted fields
@@ -200,37 +222,64 @@ class Post extends Application {
     
     public function showPost()
     {
+        //Set up the base pagebody
         $this->data['pagebody'] = 'show_post';
-        $sourcePosts = $this->posts->get($_SESSION['currentPost']);
+        //Create a new row for posts
+        $comment = $this->comments->create();
         
-       
         
-        //print_r($sourcePosts);
+        $this->data['comments'] = $this->comments->get_where('post_id', $_SESSION['currentPost']);
         
-        $this->load->helper('formfields');
-
-        $post = $this->posts->create();
+        $sourcePost = $this->posts->get_full($_SESSION['currentPost']);
         
-        $this->data['title']   = makeTextField('Title', 'title', $post->title); 
-        $this->data['content'] = makeTextArea('Comment', 'content', $post->content, "", -1, 25, 5, false);
-        $this->data['fsubmit'] = makeSubmitButton( 
+        //print_r($sourcePost);
+        //print_r($this->data['comments']);
+        
+        //Fill the form data for the comment box
+        if(isset($_SESSION['user_id']))
+        {
+            $this->data['title']   = makeTextField('Title', 'title', $comment->title); 
+            $this->data['content'] = makeTextArea('Comment', 'content', $comment->content, "", -1, 25, 5, false);
+        $this->data['fsubmit'] = makeSubmitButton(  
                 'Add Comment', 
                 "Click here to validate the post data", 
-                'btn-success');
+                'btn-success button');
+        }
+        else
+        {
+            $this->data['title']   = ""; 
+            $this->data['content'] = "";
+            $this->data['fsubmit'] = makeSubmitButton(  
+                'SignIn', 
+                "Click here to validate the post data", 
+                'btn-success button');
+        }
+        //Load the various view fragments
+        $this->data['postInfo'] = $this->parser->parse('_justone', $sourcePost, true);
+        $this->data['newComment'] = $this->parser->parse('createcomment', $this->data, true);
+        $this->data['commentsBox'] = $this->parser->parse('commentsbox', $this->data, true);
         
-        $this->data['postInfo'] = $this->parser->parse('_justone', $sourcePosts, true);
-        $this->data['commentBox'] = $this->parser->parse('createcomment', $this->data, true);
+        
+        
+        
         $this->render();
     }
     
     public function postComment()
     {
+        
+        if(!isset($_SESSION['user_id'])) redirect("../SignIn");
+        
         $record = $this->comments->create();
         
         // Extract submitted fields
-        $record->post_id = $this->input->post('postId');
+        $record->post_id = $_SESSION['currentPost'];
         $record->title   = $this->input->post('title');
         $record->content = $this->input->post('content');
+        $record->poster_id = $_SESSION['user_id'];
+        
+
+        $this->data['latestposts'] = $this->parser->parse('_latestposts', $this->data, true);
         
         // Save stuff
         if (empty($record->comment_id)) $this->comments->add($record); 
@@ -239,4 +288,20 @@ class Post extends Application {
         redirect('../Post/showPost');
     }
         
+    public function join_team()
+    {    
+        if (!isset($_SESSION['user_id']))
+        {
+            redirect('../SignIn');
+        }
+        
+        $team_id = $this->input->post('teamId');
+        
+        $team_member = $this->team_members->create();
+        $team_member->team_id = $team_id;
+        $team_member->user_id = $_SESSION['user_id'];
+        $this->team_members->add($team_member);
+        
+        redirect('../Post');
+    }
 }

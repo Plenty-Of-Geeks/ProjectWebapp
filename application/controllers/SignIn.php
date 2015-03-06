@@ -29,7 +29,17 @@ class SignIn extends Application
                 'Sign In', 
                 "Click here to validate the user data", 
                 'btn-success'); 
-         
+        
+        if (isset($_SESSION['login_error']) == 'wrongcredentials')
+        {
+            $this->data['message'] = 'Wrong Login Information';
+        }
+        else
+        {
+            $this->data['message'] = '';
+        }
+        
+       
         $this->render();
     }
     
@@ -42,17 +52,28 @@ class SignIn extends Application
             {
                 $_SESSION['username'] = $user->username;
                 $_SESSION['user_id'] = $user->user_id;
+                
+                unset($_SESSION['login_error']);
+                
+                if ($user->admin == TRUE)
+                {
+                    $_SESSION['admin'] = TRUE;
+                }
+                
                 redirect('/Post');
-            }
+            } 
         }
-       
-        redirect('/Welcome');
+
+        $_SESSION['login_error'] = 'wrongcredentials';
+        redirect('/SignIn');   
+        
     }
     
     public function logout()
     {
         unset($_SESSION['username']);
         unset($_SESSION['user_id']);
+        unset($_SESSION['admin']);
         redirect('/Welcome');
     }
 }

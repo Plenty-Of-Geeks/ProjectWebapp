@@ -10,12 +10,14 @@
 
 
 
-<div id="content">
+<div class="">
 
-    <div>
+    <div class="padded">
         {postInfo}
-        {commentBox}
-        {comments}
+        {newComment}
+    </div>
+    <div class="fullWidth padded">
+        {commentsBox}
     </div>
     
 </div>

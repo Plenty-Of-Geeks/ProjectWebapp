@@ -1,21 +1,21 @@
-<div class="content halfWidth">
-    <div id="quest" class="wheatBox bobbing">
-        <div class="titleBox" onclick='toggle({post_id})'>
+<div class="floatLeft content halfWidthPadded">
+    <div id="quest" class="wheatBox">
+        <div class="center">
             <h1 id="title">{title}</h1>
-            <h3>Quest Giver: {poster}</h3>
+            <h3>Quest Giver: {username}</h3>
         </div>
             <hr />
-        <div id='post{post_id}' class="questInfo">
+        <div id='post{post_id}' class="">
             <div class="desc">
-                <h2>Description:</h2>
+                <h3>Description:</h3>
                 <p>
                 {content}
                 </p>
             </div>
         </div>
             <hr />
-            <div id="TeamCountBox">
-                Party: {teamCount} / {maxTeamCount}
+            <div id="TeamCountBox" class="center">
+                Party: {team_count} / {max_team_count}
             </div>
             <div class='center'>
                     <button class="button">Join</button>

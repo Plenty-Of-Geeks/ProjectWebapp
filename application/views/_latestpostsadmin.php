@@ -28,7 +28,14 @@
                     <input name='teamId' value='{team_id}' hidden="true" />
                     <button type='submit' class="button">Join</button>
                 </form>
+                 <form action="/Admin/deletePost" method="post">
+                    <input name='postId' value='{post_id}' hidden="true" />
+                    <button type='submit' class='button'>Delete</button>
+                 </form>
             </div>
     </div>
 </div>                                                                                                                                                      
 {/posts}
+
+
+
