@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 06, 2015 at 01:29 AM
+-- Generation Time: Mar 06, 2015 at 08:46 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -29,10 +29,20 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `comments` (
 `comment_id` int(11) NOT NULL,
   `poster_id` int(11) NOT NULL,
-  `title` int(11) NOT NULL,
-  `content` int(11) NOT NULL,
+  `title` text NOT NULL,
+  `content` text NOT NULL,
   `post_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `comments`
+--
+
+INSERT INTO `comments` (`comment_id`, `poster_id`, `title`, `content`, `post_id`) VALUES
+(1, 2, '0', '0', 37),
+(2, 2, '0', '0', 37),
+(3, 2, '0', '0', 37),
+(4, 2, 'fadfas', 'asdfasdf', 37);
 
 -- --------------------------------------------------------
 
@@ -46,14 +56,15 @@ CREATE TABLE IF NOT EXISTS `posts` (
   `content` text NOT NULL,
   `poster_id` int(11) NOT NULL,
   `team_id` int(11) unsigned NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `posts`
 --
 
 INSERT INTO `posts` (`post_id`, `title`, `content`, `poster_id`, `team_id`) VALUES
-(14, 'New Title', 'New Content', 1, 10);
+(36, 'new ', 'cont', 1, 37),
+(37, 'New Title', 'New Content', 1, 38);
 
 -- --------------------------------------------------------
 
@@ -65,35 +76,39 @@ CREATE TABLE IF NOT EXISTS `teams` (
 `team_id` int(11) unsigned NOT NULL,
   `team_count` int(11) NOT NULL,
   `max_team_count` int(11) NOT NULL,
-  `team_name` text NOT NULL,
-  `user_id1` int(11) NOT NULL,
-  `user_id2` int(11) NOT NULL,
-  `user_id3` int(11) NOT NULL,
-  `user_id4` int(11) NOT NULL,
-  `user_id5` int(11) NOT NULL,
-  `user_id6` int(11) NOT NULL,
-  `user_id7` int(11) NOT NULL,
-  `user_id8` int(11) NOT NULL,
-  `user_id9` int(11) NOT NULL,
-  `user_id10` int(11) NOT NULL,
-  `user_id11` int(11) NOT NULL,
-  `user_id12` int(11) NOT NULL,
-  `user_id13` int(11) NOT NULL,
-  `user_id14` int(11) NOT NULL,
-  `user_id15` int(11) NOT NULL,
-  `user_id16` int(11) NOT NULL,
-  `user_id17` int(11) NOT NULL,
-  `user_id18` int(11) NOT NULL,
-  `user_id19` int(11) NOT NULL,
-  `user_id20` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+  `team_name` text NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `teams`
 --
 
-INSERT INTO `teams` (`team_id`, `team_count`, `max_team_count`, `team_name`, `user_id1`, `user_id2`, `user_id3`, `user_id4`, `user_id5`, `user_id6`, `user_id7`, `user_id8`, `user_id9`, `user_id10`, `user_id11`, `user_id12`, `user_id13`, `user_id14`, `user_id15`, `user_id16`, `user_id17`, `user_id18`, `user_id19`, `user_id20`) VALUES
-(10, 1, 10, 'New Team', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+INSERT INTO `teams` (`team_id`, `team_count`, `max_team_count`, `team_name`) VALUES
+(35, 1, 19, 'Team Shi*'),
+(36, 1, 19, 'Team Shi*'),
+(37, 1, 10, 'tea'),
+(38, 1, 1000, 'New Team ');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `team_members`
+--
+
+CREATE TABLE IF NOT EXISTS `team_members` (
+`team_member_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `team_id` int(11) unsigned NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `team_members`
+--
+
+INSERT INTO `team_members` (`team_member_id`, `user_id`, `team_id`) VALUES
+(4, 1, 37),
+(5, 1, 37),
+(6, 1, 38);
 
 -- --------------------------------------------------------
 
@@ -139,6 +154,12 @@ ALTER TABLE `teams`
  ADD PRIMARY KEY (`team_id`), ADD KEY `team_id` (`team_id`);
 
 --
+-- Indexes for table `team_members`
+--
+ALTER TABLE `team_members`
+ ADD PRIMARY KEY (`team_member_id`), ADD KEY `user_id` (`user_id`), ADD KEY `team_id` (`team_id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -152,17 +173,22 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=15;
+MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=38;
 --
 -- AUTO_INCREMENT for table `teams`
 --
 ALTER TABLE `teams`
-MODIFY `team_id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+MODIFY `team_id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=39;
+--
+-- AUTO_INCREMENT for table `team_members`
+--
+ALTER TABLE `team_members`
+MODIFY `team_member_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `users`
 --
@@ -178,6 +204,13 @@ MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 ALTER TABLE `posts`
 ADD CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`team_id`) REFERENCES `teams` (`team_id`) ON UPDATE CASCADE,
 ADD CONSTRAINT `user_constraint` FOREIGN KEY (`poster_id`) REFERENCES `users` (`user_id`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `team_members`
+--
+ALTER TABLE `team_members`
+ADD CONSTRAINT `team_members_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `team_members_ibfk_2` FOREIGN KEY (`team_id`) REFERENCES `teams` (`team_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

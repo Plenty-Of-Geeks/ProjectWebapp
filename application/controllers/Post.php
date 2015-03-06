@@ -214,26 +214,31 @@ class Post extends Application {
     
     public function showPost()
     {
+        //Set up the base pagebody
         $this->data['pagebody'] = 'show_post';
-        $sourcePosts = $this->posts->get($_SESSION['currentPost']);
+        //Create a new row for posts
+        $comment = $this->comments->create();
         
-       
         
-        //print_r($sourcePosts);
+        $this->data['comments'] = $this->comments->get_where('post_id', $_SESSION['currentPost']);
         
-        $this->load->helper('formfields');
-
-        $post = $this->posts->create();
+        $sourcePost = $this->posts->get_full($_SESSION['currentPost']);
         
-        $this->data['title']   = makeTextField('Title', 'title', $post->title); 
-        $this->data['content'] = makeTextArea('Comment', 'content', $post->content, "", -1, 25, 5, false);
+        //print_r($sourcePost);
+        //print_r($this->data['comments']);
+        
+        //Fill the form data for the comment box
+        $this->data['title']   = makeTextField('Title', 'title', $comment->title); 
+        $this->data['content'] = makeTextArea('Comment', 'content', $comment->content, "", -1, 25, 5, false);
         $this->data['fsubmit'] = makeSubmitButton( 
                 'Add Comment', 
                 "Click here to validate the post data", 
-                'btn-success');
+                'btn-success button');
+        //Load the various view fragments
+        $this->data['postInfo'] = $this->parser->parse('_justone', $sourcePost, true);
+        $this->data['newComment'] = $this->parser->parse('createcomment', $this->data, true);
+        $this->data['commentsBox'] = $this->parser->parse('commentsbox', $this->data, true);
         
-        $this->data['postInfo'] = $this->parser->parse('_justone', $sourcePosts, true);
-        $this->data['commentBox'] = $this->parser->parse('createcomment', $this->data, true);
         $this->render();
     }
     
@@ -242,9 +247,13 @@ class Post extends Application {
         $record = $this->comments->create();
         
         // Extract submitted fields
-        $record->post_id = $this->input->post('postId');
+        $record->post_id = $_SESSION['currentPost'];
         $record->title   = $this->input->post('title');
         $record->content = $this->input->post('content');
+        $record->poster_id = $_SESSION['user_id'];
+        
+
+        $this->data['latestposts'] = $this->parser->parse('_latestposts', $this->data, true);
         
         // Save stuff
         if (empty($record->comment_id)) $this->comments->add($record); 

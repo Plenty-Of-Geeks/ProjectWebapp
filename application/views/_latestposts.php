@@ -1,26 +1,26 @@
 {posts}
-<div class="content">
+<div class="content floatLeft">
     <div id="quest" class="wheatBox bobbing">
-        <div class="titleBox" onclick='toggle({post_id})'>
+        <div class="titleBox center" onclick='toggle({post_id})'>
             <h1 id="title">{title}</h1>
             <h3>Quest Giver: {username}</h3>
         </div>
             <hr />
         <div id='post{post_id}' class="questInfo hidden">
             <div class="desc">
-                <h2>Description:</h2>
+                <h3>Description:</h3>
                 <p>
                 {content}
                 </p>
             </div>
         </div>
             <hr />
-            <div id="TeamCountBox">
+            <div id="TeamCountBox" class='center'>
                 Party: {team_count} / {max_team_count}
             </div>
             <div class='center'>
-                <form action="/Post/comment" method="post">
                     <button class="button" onclick='openDesc({post_id})'>Read more</button>
+                <form action="/Post/comment" method="post">
                     <input name='postId' value='{post_id}' hidden="true" />
                     <button type='submit' class="button">Comments</button>
                 </form>

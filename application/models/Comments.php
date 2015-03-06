@@ -12,4 +12,12 @@ class Comments extends MY_Model
     public function __construct() {
         parent::__construct('comments', 'comment_id');
     }
+    
+    public function get_where($key, $val){
+        
+        $this->db->where($key, $val);
+        $query = $this->db->get($this->_tableName);
+                
+        return $query->result();
+    }
 }
