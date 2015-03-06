@@ -58,15 +58,32 @@
    }
    
    .button{
-       margin: 0.1em;
+        background-color: #00A0EB;
+        border-radius: 5px 5px 5px 5px;
+        color: #FFFFFF;
+        display: inline-block;
+        font-size: 13px;
+        font-weight: bold;
+        padding: 8px 15px;
+        text-decoration: none;
+        text-transform: uppercase;
+        margin: 0.1em;
    }
 </style>
 <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
 <script type='text/javascript'>
-    function openDesc(){
-        document.getElementById('a').style.display = "block";
+    function openDesc(id){
+        console.log("post" + id);
+        document.getElementById("post" + id).style.display = "block";
         
         
+        
+    }
+    function toggle(id){
+        if(document.getElementById("post" + id).style.display == "block")
+            document.getElementById("post" + id).style.display = "none";
+        else
+            document.getElementById("post" + id).style.display = "block";
     }
 </script>
 
@@ -75,12 +92,12 @@
 {posts}
 <div class="content">
     <div id="quest" class="wheatBox bobbing">
-        <div class="titleBox" onclick='openDesc()'>
+        <div class="titleBox" onclick='toggle({post_id})'>
             <h1 id="title">{title}</h1>
-            <h3>Quest Giver: {poster}</h3>
+            <h3>Quest Giver: {username}</h3>
         </div>
             <hr />
-        <div id='a' class="questInfo">
+        <div id='post{post_id}' class="questInfo">
             <div class="desc">
                 <h2>Description:</h2>
                 <p>
@@ -90,12 +107,15 @@
         </div>
             <hr />
             <div id="TeamCountBox">
-                Party: {teamCount} / {maxTeamCount}
+                Party: {team_count} / {max_team_count}
             </div>
             <div class='center'>
-                <a href="#" class="button" onclick='openDesc()'>Read more</a>
-                <a href="#" class="button">Comments</a>
-                <a href="#" class="button">Join</a>
+                <form action="/Post/comment" method="post">
+                    <button class="button" onclick='openDesc({post_id})'>Read more</button>
+                    <input name='postId' value='{post_id}' hidden="true" />
+                    <button type='submit' class="button">Comments</button>
+                    <button class="button">Join</button>
+                </form>
             </div>
     </div>
 </div>                                                                                                                                                      
