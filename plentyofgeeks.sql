@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 06, 2015 at 08:46 PM
+-- Generation Time: Mar 06, 2015 at 11:15 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -56,15 +56,14 @@ CREATE TABLE IF NOT EXISTS `posts` (
   `content` text NOT NULL,
   `poster_id` int(11) NOT NULL,
   `team_id` int(11) unsigned NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `posts`
 --
 
 INSERT INTO `posts` (`post_id`, `title`, `content`, `poster_id`, `team_id`) VALUES
-(36, 'new ', 'cont', 1, 37),
-(37, 'New Title', 'New Content', 1, 38);
+(40, 'rtert', 'erterte', 1, 41);
 
 -- --------------------------------------------------------
 
@@ -77,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `teams` (
   `team_count` int(11) NOT NULL,
   `max_team_count` int(11) NOT NULL,
   `team_name` text NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `teams`
@@ -87,7 +86,10 @@ INSERT INTO `teams` (`team_id`, `team_count`, `max_team_count`, `team_name`) VAL
 (35, 1, 19, 'Team Shi*'),
 (36, 1, 19, 'Team Shi*'),
 (37, 1, 10, 'tea'),
-(38, 1, 1000, 'New Team ');
+(38, 1, 1000, 'New Team '),
+(39, 1, 10, 'New Team '),
+(40, 1, 10, 'Thea'),
+(41, 1, 9999, 'ertert');
 
 -- --------------------------------------------------------
 
@@ -99,7 +101,7 @@ CREATE TABLE IF NOT EXISTS `team_members` (
 `team_member_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `team_id` int(11) unsigned NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `team_members`
@@ -108,7 +110,11 @@ CREATE TABLE IF NOT EXISTS `team_members` (
 INSERT INTO `team_members` (`team_member_id`, `user_id`, `team_id`) VALUES
 (4, 1, 37),
 (5, 1, 37),
-(6, 1, 38);
+(6, 1, 38),
+(7, 1, 38),
+(8, 1, 39),
+(9, 1, 40),
+(10, 1, 41);
 
 -- --------------------------------------------------------
 
@@ -120,16 +126,17 @@ CREATE TABLE IF NOT EXISTS `users` (
 `user_id` int(11) NOT NULL,
   `username` text NOT NULL,
   `password` text NOT NULL,
-  `email` text NOT NULL
+  `email` text NOT NULL,
+  `admin` tinyint(1) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`user_id`, `username`, `password`, `email`) VALUES
-(1, 'katnapped', 'wael274', 'katnapped@hotmail.com'),
-(2, 'goggy', 'derp', 'derp@hotmail.com');
+INSERT INTO `users` (`user_id`, `username`, `password`, `email`, `admin`) VALUES
+(1, 'katnapped', 'wael274', 'katnapped@hotmail.com', 1),
+(2, 'goggy', 'derp', 'derp@hotmail.com', 0);
 
 --
 -- Indexes for dumped tables
@@ -178,17 +185,17 @@ MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=38;
+MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=41;
 --
 -- AUTO_INCREMENT for table `teams`
 --
 ALTER TABLE `teams`
-MODIFY `team_id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=39;
+MODIFY `team_id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=42;
 --
 -- AUTO_INCREMENT for table `team_members`
 --
 ALTER TABLE `team_members`
-MODIFY `team_member_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+MODIFY `team_member_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `users`
 --
