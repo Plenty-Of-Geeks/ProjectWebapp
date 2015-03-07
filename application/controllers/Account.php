@@ -16,6 +16,7 @@ class Account extends Application
         $this->load->helper('formfields');        
         $this->load->model('posts');
         $this->load->model('users');
+      
     }
 	
     /* This is ALWAYS going to be the logged in user's profile */
@@ -60,9 +61,17 @@ class Account extends Application
         
         
        $this->data['display_all_post'] = $this->parser->parse('_latestposts', $this->data, true);
-     $this->render();
-        
-        
+     $this->render();            
+    }
+    
+    
+    public function profile()
+    {
+            $this->data['pagebody'] = 'profile';
+        $_SESSION['selected_profile'] = $this->uri->segment(3);
+    
+        print_r($_SESSION['selected_profile']);
+        $this->render();
     }
     
     public function get_teams()

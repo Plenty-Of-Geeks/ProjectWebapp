@@ -2,7 +2,7 @@
     <div id="quest" class="wheatBox">
         <div class="center">
             <h1 id="title">{title}</h1>
-            <h3>Quest Giver: {username}</h3>
+                <h3>Quest Giver: <a style=" text-decoration: none;" href="../Account/profile/{username}">{username}</a></h3>
         </div>
             <hr />
         <div id='post{post_id}' class="">
