@@ -5,4 +5,5 @@
         {content}
         {fsubmit}
     </form> 
+        {signin}
 </div>
