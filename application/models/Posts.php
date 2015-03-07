@@ -42,12 +42,12 @@ class Posts extends MY_Model
             }
             else
             {
-                $posts[$key] = $this->append_object($post, 'isFull');
+                $posts[$key] = $this->append_object($post, 'isFull', '');
             } 
             
             if ($user_id != null)
             {
-                $posts[$key] = $this->check_team_member_exist($post, $user_id);
+                $posts[$key] = $this->check_team_member_exist($posts[$key], $user_id);
             }
         }
         

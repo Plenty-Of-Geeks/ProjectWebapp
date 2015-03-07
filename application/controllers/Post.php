@@ -78,7 +78,7 @@ class Post extends Application {
         $team = $this->restore_team_session($this->teams->create());
             
         $this->data['title']   = makeTextField('Title *', 'title', $post->title); 
-        $this->data['content'] = makeTextField('Content *', 'content', $post->content);
+        $this->data['content'] = $this->data['content'] = makeTextArea('Content*', 'content', $post->content, "", 100, 25, 5, false);
         $this->data['team_name'] = makeTextField('Team Name *', 'team_name', $team->team_name);
         $this->data['max_team_count'] = makeTextField('Max Team Members *', 'max_team_count', $team->max_team_count);
     }
@@ -247,7 +247,7 @@ class Post extends Application {
         if(isset($_SESSION['user_id']))
         {
             $this->data['title']   = makeTextField('Title', 'title', $comment->title); 
-            $this->data['content'] = makeTextArea('Comment', 'content', $comment->content, "", -1, 25, 5, false);
+            $this->data['content'] = makeTextArea('Comment', 'content', $comment->content, "", 100, 25, 5, false);
         $this->data['fsubmit'] = makeSubmitButton(  
                 'Add Comment', 
                 "Click here to validate the post data", 
