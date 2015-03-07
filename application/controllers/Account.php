@@ -29,7 +29,6 @@ class Account extends Application
         $this->data['profile_pic'] = "<img src='../assets/images/profile_pic.png'>";      
         
         $query = $this->users->get($_SESSION['user_id']);        
-        print_r($query);
         
         $this->data['username'] = $query->username;
         $this->data['email'] = $query->email;
@@ -70,7 +69,6 @@ class Account extends Application
             $this->data['pagebody'] = 'profile';
         $_SESSION['selected_profile'] = $this->uri->segment(3);
     
-        print_r($_SESSION['selected_profile']);
         $this->render();
     }
     
