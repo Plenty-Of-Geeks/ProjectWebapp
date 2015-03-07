@@ -299,6 +299,9 @@ class Post extends Application {
             //$curPost = $this->posts->
             $sourcePost->title = makeTextField('Title', 'title', $sourcePost->title);
             $sourcePost->content = makeTextArea('Comment', 'content', $sourcePost->content, "", 1000, 25, 5, false);
+            
+            $sourcePost->max_team_count = makeTextArea('Max Number of Team Members:', 'mtc', $sourcePost->max_team_count, "", 2, 2, 1, false);
+            
             $this->data['postInfo'] = $this->parser->parse('_justoneedit', $sourcePost, true);
             //team members
             $this->data['teamlist'] = $this->parser->parse('_teamlistedit', $this->data, true);

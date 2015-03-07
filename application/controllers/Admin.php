@@ -168,16 +168,26 @@ class Admin extends Application
         
         $teamID = $targetPost->team_id;
         
-        $teams = $this->teams->some('team_id', $teamID);
+        $team = $this->teams->get($teamID);
+        
         $teamMembers = $this->team_members->some('team_id', $teamID);
         $comments = $this->comments->some('post_id', $targetPostID);
         
-        //for all members in team
-        //get team_member_id
-        //then from team members for that team_member_id
-        //get user_id
-        //then from users for that user_id
-        //get that username
+        $newMTC = $this->input->post('mtc');
+        
+        $teamCount = $team->team_count;
+        
+        if ($teamCount > $newMTC)
+        {
+            $newMTC = $teamCount;
+        }
+        
+        //edit database
+        $team->max_team_count = $newMTC;
+        $this->teams->update($team);
+       
+        //go back to showpost
+        redirect('../Post/showPost'); 
     }
     public function search()
     {
