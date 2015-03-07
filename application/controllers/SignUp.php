@@ -51,7 +51,7 @@ class SignUp extends Application
         $record->username = $this->input->post('username');
         $record->password = $this->input->post('password');
         $record->email = $this->input->post('email');
-        
+        $record->profile_picture = "/assets/images/profile_pic.png";
         
         //Check to see if this username already exists
         $users = $this->users->some('username', $this->input->post('username'));

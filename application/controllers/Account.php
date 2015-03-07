@@ -26,7 +26,7 @@ class Account extends Application
         $allow_edit = false; //Boolean to check on privillges 
         
         //The profile pic (static for now, will make it dynamic later)
-        $this->data['profile_pic'] = "<img src='../assets/images/profile_pic.png'>";      
+        $this->data['profile_pic'] = "<img src='" . $this->users->get($_SESSION['user_id'])->profile_picture."'>";      
         
         $query = $this->users->get($_SESSION['user_id']);        
         print_r($query);
@@ -48,7 +48,7 @@ class Account extends Application
     
     
     
-    
+    /** This is for YOUR account only **/
     public function get_all_posts()
     {
          $this->data['pagebody'] = 'account_get_all_post';
@@ -64,19 +64,37 @@ class Account extends Application
      $this->render();            
     }
     
-    
-    public function profile()
+    /*The profile page for a general profile*/
+    public function profile($username)
     {
-            $this->data['pagebody'] = 'profile';
-        $_SESSION['selected_profile'] = $this->uri->segment(3);
+        //Set pagebody
+        $this->data['pagebody'] = 'profile';
+        
+        //query will hold the selected profile id
+        $query = $this->users->get_by_username($username);
+        
+        print_r($query);
+        $this->data['profile_pic'] = "<img src='"  .base_url() . $query->profile_picture."'>";      
+               
+        $this->data['username'] = $query->username;
+        $this->data['email'] = $query->email;
+        
+        
     
         print_r($_SESSION['selected_profile']);
         $this->render();
     }
     
-    public function get_teams()
+    /** Gets all post from a general user **/
+    public function show_posts($username)
     {
+        $this->data['pagebody'] = 'account_get_all_post';
         
+        $result = $this->posts->get_all_post_by_username($username);
+        
+       $this->data['posts'] = $result;                  
+       $this->data['display_all_post'] = $this->parser->parse('_latestposts', $this->data, true);               
+       $this->render();
     }
 }
 
