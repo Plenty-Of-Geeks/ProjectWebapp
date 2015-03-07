@@ -25,7 +25,15 @@ class Post extends Application {
         $this->data['pagebody'] = 'post';
 
         /* Get Latest Posts */
-        $this->data['posts'] = $this->posts->get_all_posts();
+        if (isset($_SESSION['user_id']))
+        {
+            $this->data['posts'] = $this->posts->get_all_posts($_SESSION['user_id']);
+        }
+        else
+        {
+            $this->data['posts'] = $this->posts->get_all_posts();
+        }
+
 
         //check to see if your an admin, if so load admin controls
         if (isset($_SESSION['admin']))
@@ -51,8 +59,10 @@ class Post extends Application {
  
         $this->setup_post_input_fields();
         
-        $this->setup_error_message();
+        $this->setup_post_error_message();
 
+        $this->setup_join_error_message();
+        
         $this->data['fsubmit'] = makeSubmitButton( 
                 'Add Post', 
                 "Click here to validate the post data", 
@@ -101,7 +111,7 @@ class Post extends Application {
         return $team;
     }
     
-    public function setup_error_message()
+    public function setup_post_error_message()
     {
         if (isset($_SESSION['create_post_error']))
         {
@@ -166,8 +176,6 @@ class Post extends Application {
         }
         
         $team->team_id = $this->db->insert_id();
-        
-        echo "<script type='text/javascript'>alert('$team->team_id');</script>";
         
         return $team;
     }
@@ -302,6 +310,25 @@ class Post extends Application {
         $team_member->user_id = $_SESSION['user_id'];
         $this->team_members->add($team_member);
         
+        /* Update Team Record */
+        $team_record = $this->teams->get($team_id);
+        $team_record->team_count = $team_record->team_count + 1;
+        $this->teams->update($team_record);
+        
         redirect('../Post');
+    }
+    
+    public function setup_join_error_message()
+    {      
+        if(isset($_SESSION['join_error_message']))
+        {
+            $this->data['join_error_message'] = $_SESSION['join_error_message'];         
+            unset($_SESSION['join_error_message']);
+        }
+        else
+        {
+            $this->data['join_error_message'] = '';
+        }
+        $this->data['join_error_message'] = 3;
     }
 }

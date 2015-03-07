@@ -64,8 +64,15 @@ class Welcome extends Application {
 	{
 		$this->data['pagebody'] = 'welcome';
                 
-                /* Get Latest Posts */                
-                $this->data['posts'] = $this->posts->get_all_posts();
+                /* Get Latest Posts */
+                if (isset($_SESSION['user_id']))
+                {
+                    $this->data['posts'] = $this->posts->get_all_posts($_SESSION['user_id']);
+                }
+                else
+                {
+                    $this->data['posts'] = $this->posts->get_all_posts();
+                }
                 
                  //check to see if your an admin, if so load admin controls
                 if (isset($_SESSION['admin']))
