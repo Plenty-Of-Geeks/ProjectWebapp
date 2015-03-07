@@ -15,6 +15,7 @@ class Admin extends Application
         $this->load->helper('formfields');
         $this->load->model('users');
         $this->load->model('posts');
+        $this->load->model('comments');
         //$this->load->view('_latestpostsadmin');
     }
     
@@ -35,7 +36,36 @@ class Admin extends Application
     public function deletePost()
     {
         $this->posts->delete($this->input->post('postId'));
-        redirect('/Post');
+        redirect('../Post');
+    }
+    
+    public function deleteComment()
+    {
+        $this->comments->delete($this->input->post('cId'));
+        redirect('../Post/showPost');
+    }
+    public function editComment()
+    {
+        print_r($this->input->post('cId'));
+        $_SESSION['commentToEdit'] = $this->input->post('cId');
+        redirect('../Post/showPost');
+    }
+    public function saveComment()
+    {
+        if(!isset($_SESSION['user_id'])) redirect("../SignIn");
+        
+        $record = $this->comments->get($_SESSION['commentToEdit']);
+        
+        // Extract submitted fields
+        $record->title      = $this->input->post('title');
+        $record->content    = $this->input->post('content');
+        
+        // Save stuff
+        $this->comments->update($record); 
+        
+        unset($_SESSION['commentToEdit']);
+        
+        redirect('../Post/showPost');
     }
     
     public function search()
