@@ -18,6 +18,7 @@ class Post extends Application {
         $this->load->model('team_members');
         $this->load->helpers('formfields');
         $this->load->library('form_validation');
+        
     }
     
     public function index()
@@ -224,46 +225,47 @@ class Post extends Application {
     {
         //Set up the base pagebody
         $this->data['pagebody'] = 'show_post';
+        $this->load->helper('commentbox');
+        $this->load->helper('button');
+        
         //Create a new row for posts
         $comment = $this->comments->create();
         
-        
-        $this->data['comments'] = $this->comments->get_where('post_id', $_SESSION['currentPost']);
+        $this->data['comments'] = $this->comments->some('post_id', $_SESSION['currentPost']);
         
         $sourcePost = $this->posts->get_full($_SESSION['currentPost']);
-        
-        //print_r($sourcePost);
-        //print_r($this->data['comments']);
-        
+                
         //Fill the form data for the comment box
         if(isset($_SESSION['user_id']))
         {
             $this->data['title']   = makeTextField('Title', 'title', $comment->title); 
             $this->data['content'] = makeTextArea('Comment', 'content', $comment->content, "", -1, 25, 5, false);
-        $this->data['fsubmit'] = makeSubmitButton(  
+            $this->data['fsubmit'] = makeSubmitButton(  
                 'Add Comment', 
                 "Click here to validate the post data", 
                 'btn-success button');
+            $this->data['signin'] = "";
         }
         else
         {
-            $this->data['title']   = ""; 
-            $this->data['content'] = "";
-            $this->data['fsubmit'] = makeSubmitButton(  
-                'SignIn', 
-                "Click here to validate the post data", 
-                'btn-success button');
+            $this->data['title'] = $this->data['content'] = "";
+            $this->data['fsubmit'] = "";
+            
+            $this->data['signin'] = makePHPButton("../SignIn", "Sign In", "a", "a", "button center");
         }
+        
         //Load the various view fragments
         $this->data['postInfo'] = $this->parser->parse('_justone', $sourcePost, true);
-        $this->data['newComment'] = $this->parser->parse('createcomment', $this->data, true);
-        $this->data['commentsBox'] = $this->parser->parse('commentsbox', $this->data, true);
-        
-        
-        
-        
+        $this->data['newComment'] = $this->parser->parse('createcomment', $this->data, true); 
+        $this->data['commentsBox'] = makeCommentBox($this->data['comments'], 
+                                                    isset($_SESSION['admin']),
+            isset($_SESSION['commentToEdit'])       ? $_SESSION['commentToEdit']   : null);
+            
         $this->render();
     }
+    
+    
+    
     
     public function postComment()
     {
