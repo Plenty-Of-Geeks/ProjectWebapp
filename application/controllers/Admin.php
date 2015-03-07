@@ -15,7 +15,9 @@ class Admin extends Application
         $this->load->helper('formfields');
         $this->load->model('users');
         $this->load->model('posts');
-        //$this->load->view('_latestpostsadmin');
+        $this->load->model('teams');
+        $this->load->model('team_members');
+        $this->load->model('comments');
     }
     
     public function index()
@@ -34,10 +36,120 @@ class Admin extends Application
     }
     public function deletePost()
     {
-        $this->posts->delete($this->input->post('postId'));
+        $targetPostID = $this->input->post('postId');
+        $targetPost = $this->posts->get($targetPostID);
+        
+        $teamID = $targetPost->team_id;
+        
+        $teams = $this->teams->some('team_id', $teamID);
+        $teamMembers = $this->team_members->some('team_id', $teamID);
+        $comments = $this->comments->some('post_id', $targetPostID);
+        
+        //delete the post table
+        $this->posts->delete($targetPostID);
+        
+        //delete all the team member tables from this post
+        foreach ($teamMembers as $user)
+        {
+            $teamMemberID = $user->team_member_id;
+            $this->team_members->delete($teamMemberID);
+        }
+        
+        //delete the team table from this post
+        $this->teams->delete($teamID);
+        
+        //delete all the comment tables from this post
+        foreach ($comments as $comment)
+        {
+            $commentID = $comment->comment_id;
+            $this->comments->delete($commentID);
+        }
+        
         redirect('/Post');
     }
     
+    public function editPostTitle()
+    {
+        $targetPostID = $this->input->post('postId');
+        $targetPost = $this->posts->get($targetPostID);
+        
+        $teamID = $targetPost->team_id;
+        
+        $teams = $this->teams->some('team_id', $teamID);
+        $teamMembers = $this->team_members->some('team_id', $teamID);
+        $comments = $this->comments->some('post_id', $targetPostID);
+        
+
+        $newTitle = $this->input->post('title');
+        
+        //edit database
+        $targetPost->title = $newTitle;
+        $this->posts->update($targetPost);
+        
+        
+        //go back to showpost
+        redirect('../Post/showPost');
+        
+    }
+    public function editPostDesc()
+    {
+        $targetPostID = $this->input->post('postId');
+        $targetPost = $this->posts->get($targetPostID);
+        
+        $teamID = $targetPost->team_id;
+        
+        $teams = $this->teams->some('team_id', $teamID);
+        $teamMembers = $this->team_members->some('team_id', $teamID);
+        $comments = $this->comments->some('post_id', $targetPostID);
+        
+        $newDesc = $this->input->post('content');
+        
+        //edit database
+        $targetPost->content = $newDesc;
+        $this->posts->update($targetPost);
+        
+        //go back to showpost
+        redirect('../Post/showPost');
+    }
+    public function deletePostMembers()
+    {
+        $teamMemberID = $this->input->post('teamMemberId');
+        $teamID = $this->input->post('teamId');
+        
+        //$teamMember = $this->team_members->get($teamMemberID);
+        
+        $team = $this->teams->get($teamID);
+
+        //decrement the number of team members in a team
+        $oldTeamCount = $team->team_count;
+        $team->team_count = ($oldTeamCount - 1);
+        $this->teams->update($team);
+        
+        //delete the teamMember table
+        $this->team_members->delete($teamMemberID);
+        
+        //go back to showpost
+        redirect('../Post/showPost');
+    }
+    
+    public function editPostMembersNum()
+    {
+        $targetPostID = $this->input->post('postId');
+        $targetPost = $this->posts->get($targetPostID);
+        
+        $teamID = $targetPost->team_id;
+        
+        $teams = $this->teams->some('team_id', $teamID);
+        $teamMembers = $this->team_members->some('team_id', $teamID);
+        $comments = $this->comments->some('post_id', $targetPostID);
+        
+        //for all members in team
+        //get team_member_id
+        //then from team members for that team_member_id
+        //get user_id
+        //then from users for that user_id
+        //get that username
+    }
     public function search()
     {
         $users = $this->users->some('username', $this->input->post('username'));

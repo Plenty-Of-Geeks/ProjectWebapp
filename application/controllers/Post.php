@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php
 
 /* 
@@ -16,6 +17,7 @@ class Post extends Application {
         $this->load->model('comments');
         $this->load->model('teams');
         $this->load->model('team_members');
+        $this->load->model('users');
         $this->load->helpers('formfields');
         $this->load->library('form_validation');
     }
@@ -273,8 +275,43 @@ class Post extends Application {
                 "Click here to validate the post data", 
                 'btn-success button');
         }
+        
+        //TEAMLIST
+        $curTeamID = $sourcePost->team_id;//get tareget team_Id
+        //get all team members from target team
+        $team_members = $this->team_members->some('team_id', $curTeamID);
+        
+        //team members
+        $teams_users_members = $this->team_members->get_team_member_details($curTeamID);
+                
+        /*foreach ($team_members as $team_member)
+        {
+            $userID = $team_member->user_id;
+            $user = $this->users->get($userID);
+            $userName = $user->username;
+            array_push($usernames, $user);          
+        }*/
+        
+        //team members
+        $this->data['teamlistview'] = $teams_users_members;
+        
         //Load the various view fragments
-        $this->data['postInfo'] = $this->parser->parse('_justone', $sourcePost, true);
+        if (isset($_SESSION['admin']))
+        {
+            //$curPost = $this->posts->
+            $sourcePost->title = makeTextField('Title', 'title', $sourcePost->title);
+            $sourcePost->content = makeTextArea('Comment', 'content', $sourcePost->content, "", -1, 25, 5, false);
+            $this->data['postInfo'] = $this->parser->parse('_justoneedit', $sourcePost, true);
+            //team members
+            $this->data['teamlist'] = $this->parser->parse('_teamlistedit', $this->data, true);
+        }
+        else
+        {
+            $this->data['postInfo'] = $this->parser->parse('_justone', $sourcePost, true);
+            //team members
+            $this->data['teamlist'] = $this->parser->parse('_teamlist', $this->data, true);
+        }
+        
         $this->data['newComment'] = $this->parser->parse('createcomment', $this->data, true);
         $this->data['commentsBox'] = $this->parser->parse('commentsbox', $this->data, true);
         
@@ -342,4 +379,5 @@ class Post extends Application {
         }
         $this->data['join_error_message'] = 3;
     }
+
 }
