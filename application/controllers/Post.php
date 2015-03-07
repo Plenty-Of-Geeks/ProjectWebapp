@@ -16,6 +16,7 @@ class Post extends Application {
         $this->load->model('comments');
         $this->load->model('teams');
         $this->load->model('team_members');
+        $this->load->model('users');
         $this->load->helpers('formfields');
         $this->load->library('form_validation');
     }
@@ -37,6 +38,7 @@ class Post extends Application {
             $this->data['latestposts'] = $this->parser->parse('_latestposts', $this->data, true);
         }
 
+        //print_r($this->data['posts']);
         $this->render();
     }
     
@@ -167,7 +169,7 @@ class Post extends Application {
         
         $team->team_id = $this->db->insert_id();
         
-        echo "<script type='text/javascript'>alert('$team->team_id');</script>";
+        //echo "<script type='text/javascript'>alert('$team->team_id');</script>";
         
         return $team;
     }
@@ -226,15 +228,11 @@ class Post extends Application {
         $this->data['pagebody'] = 'show_post';
         //Create a new row for posts
         $comment = $this->comments->create();
-        
-        
+          
         $this->data['comments'] = $this->comments->get_where('post_id', $_SESSION['currentPost']);
         
         $sourcePost = $this->posts->get_full($_SESSION['currentPost']);
-        
-        //print_r($sourcePost);
-        //print_r($this->data['comments']);
-        
+       
         //Fill the form data for the comment box
         if(isset($_SESSION['user_id']))
         {
@@ -254,14 +252,47 @@ class Post extends Application {
                 "Click here to validate the post data", 
                 'btn-success button');
         }
+        
+        //TEAMLIST
+        $curTeamID = $sourcePost->team_id;//get tareget team_Id
+        //get all team members from target team
+        $team_members = $this->team_members->some('team_id', $curTeamID);
+        
+        //team members
+        $teams_users_members = $this->team_members->get_team_member_details($curTeamID);
+                
+        /*foreach ($team_members as $team_member)
+        {
+            $userID = $team_member->user_id;
+            $user = $this->users->get($userID);
+            $userName = $user->username;
+            array_push($usernames, $user);          
+        }*/
+        
+        //team members
+        $this->data['teamlistview'] = $teams_users_members;
+        
         //Load the various view fragments
-        $this->data['postInfo'] = $this->parser->parse('_justone', $sourcePost, true);
+        if (isset($_SESSION['admin']))
+        {
+            //$curPost = $this->posts->
+            $sourcePost->title = makeTextField('Title', 'title', $sourcePost->title);
+            $sourcePost->content = makeTextArea('Comment', 'content', $sourcePost->content, "", -1, 25, 5, false);
+            $this->data['postInfo'] = $this->parser->parse('_justoneedit', $sourcePost, true);
+            //team members
+            $this->data['teamlist'] = $this->parser->parse('_teamlistedit', $this->data, true);
+        }
+        else
+        {
+            $this->data['postInfo'] = $this->parser->parse('_justone', $sourcePost, true);
+            //team members
+            $this->data['teamlist'] = $this->parser->parse('_teamlist', $this->data, true);
+        }
+                
+        
         $this->data['newComment'] = $this->parser->parse('createcomment', $this->data, true);
         $this->data['commentsBox'] = $this->parser->parse('commentsbox', $this->data, true);
-        
-        
-        
-        
+
         $this->render();
     }
     
