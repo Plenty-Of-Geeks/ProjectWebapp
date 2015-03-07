@@ -7,7 +7,7 @@
             <h1 id="title">{title}</h1>
         </div>
         
-         <h3>Quest Giver: <a style=" text-decoration: none;" href="../Account/profile/{username}">{username}</a></h3>
+         <h3>Quest Giver: <a style=" text-decoration: none;" href="../Account/profile/{username}/{username}">{username}</a></h3>
         
             <hr />
         <div id='post{post_id}' class="questInfo hidden">
