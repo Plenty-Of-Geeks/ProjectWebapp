@@ -23,7 +23,7 @@ class SignIn extends Application
         $user = $this->users->create();
         
         $this->data['username'] = makeTextField('Username', 'username', $user->username);
-        $this->data['password'] = makeTextField('Password', 'password', $user->password);
+        $this->data['password'] = makePasswordField('Password', 'password', $user->password);
         
         $this->data['submit'] = makeSubmitButton( 
                 'Sign In', 

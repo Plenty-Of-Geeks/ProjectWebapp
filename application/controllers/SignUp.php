@@ -32,8 +32,8 @@ class SignUp extends Application
         }
         
         $this->data['username'] = makeTextField('Username', 'username', $user->username);
-        $this->data['password'] = makeTextField('Password', 'password', $user->password);
-        $this->data['password2'] = makeTextField('Password', 'password2', $user->password);
+        $this->data['password'] = makePasswordField('Password', 'password', $user->password);
+        $this->data['password2'] = makePasswordField('Password', 'password2', $user->password);
         $this->data['email'] = makeTextField('Email', 'email', $user->email);
         
         $this->data['submit'] = makeSubmitButton( 

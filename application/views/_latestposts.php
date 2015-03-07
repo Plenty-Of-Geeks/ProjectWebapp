@@ -26,7 +26,7 @@
                 </form>
                 <form action="/Post/join_team" method="post">
                     <input name='teamId' value='{team_id}' hidden="true" />
-                    <button type='submit' class="button {isFull}">Join</button>
+                    <button type='submit' class="button {isFull} {hasJoined}">Join</button>
                 </form>
             </div>
     </div>
