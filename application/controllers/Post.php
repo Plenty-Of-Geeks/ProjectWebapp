@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php
 
 /* 
@@ -252,9 +251,6 @@ class Post extends Application {
         $this->data['comments'] = $this->comments->get_where('post_id', $_SESSION['currentPost']);
         
         $sourcePost = $this->posts->get_full($_SESSION['currentPost']);
-        
-        //print_r($sourcePost);
-        //print_r($this->data['comments']);
         
         //Fill the form data for the comment box
         if(isset($_SESSION['user_id']))
