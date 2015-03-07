@@ -13,6 +13,4 @@ class Teams extends MY_Model
     {
         parent::__construct('teams', 'team_id');
     }
-    
-    
 }

@@ -1,10 +1,14 @@
 {posts}
 <div class="content floatLeft">
     <div id="quest" class="wheatBox bobbing">
+        
+        
         <div class="titleBox center" onclick='toggle({post_id})'>
             <h1 id="title">{title}</h1>
-            <h3>Quest Giver: {username}</h3>
         </div>
+        
+         <h3>Quest Giver: <a style=" text-decoration: none;" href="../Account/profile/{username}">{username}</a></h3>
+        
             <hr />
         <div id='post{post_id}' class="questInfo hidden">
             <div class="desc">
