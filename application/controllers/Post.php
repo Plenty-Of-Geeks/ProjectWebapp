@@ -19,6 +19,7 @@ class Post extends Application {
         $this->load->model('users');
         $this->load->helpers('formfields');
         $this->load->library('form_validation');
+        
     }
     
     public function index()
@@ -79,7 +80,7 @@ class Post extends Application {
         $team = $this->restore_team_session($this->teams->create());
             
         $this->data['title']   = makeTextField('Title *', 'title', $post->title); 
-        $this->data['content'] = $this->data['content'] = makeTextArea('Content*', 'content', $post->content, "", 100, 25, 5, false);
+        $this->data['content'] = $this->data['content'] = makeTextArea('Content*', 'content', $post->content, "", 1000, 25, 5, false);
         $this->data['team_name'] = makeTextField('Team Name *', 'team_name', $team->team_name);
         $this->data['max_team_count'] = makeTextField('Max Team Members *', 'max_team_count', $team->max_team_count);
     }
@@ -244,32 +245,33 @@ class Post extends Application {
     {
         //Set up the base pagebody
         $this->data['pagebody'] = 'show_post';
+        $this->load->helper('commentbox');
+        $this->load->helper('button');
+        
         //Create a new row for posts
         $comment = $this->comments->create();
         
-        
-        $this->data['comments'] = $this->comments->get_where('post_id', $_SESSION['currentPost']);
+        $this->data['comments'] = $this->comments->some('post_id', $_SESSION['currentPost']);
         
         $sourcePost = $this->posts->get_full($_SESSION['currentPost']);
-        
+
         //Fill the form data for the comment box
         if(isset($_SESSION['user_id']))
         {
             $this->data['title']   = makeTextField('Title', 'title', $comment->title); 
-            $this->data['content'] = makeTextArea('Comment', 'content', $comment->content, "", 100, 25, 5, false);
-        $this->data['fsubmit'] = makeSubmitButton(  
+            $this->data['content'] = makeTextArea('Comment', 'content', $comment->content, "", 1000, 25, 5, false);
+            $this->data['fsubmit'] = makeSubmitButton(  
                 'Add Comment', 
                 "Click here to validate the post data", 
                 'btn-success button');
+            $this->data['signin'] = "";
         }
         else
         {
-            $this->data['title']   = ""; 
-            $this->data['content'] = "";
-            $this->data['fsubmit'] = makeSubmitButton(  
-                'SignIn', 
-                "Click here to validate the post data", 
-                'btn-success button');
+            $this->data['title'] = $this->data['content'] = "";
+            $this->data['fsubmit'] = "";
+            
+            $this->data['signin'] = makePHPButton("../SignIn", "Sign In", "a", "a", "button center");
         }
         
         //TEAMLIST
@@ -296,7 +298,7 @@ class Post extends Application {
         {
             //$curPost = $this->posts->
             $sourcePost->title = makeTextField('Title', 'title', $sourcePost->title);
-            $sourcePost->content = makeTextArea('Comment', 'content', $sourcePost->content, "", -1, 25, 5, false);
+            $sourcePost->content = makeTextArea('Comment', 'content', $sourcePost->content, "", 1000, 25, 5, false);
             $this->data['postInfo'] = $this->parser->parse('_justoneedit', $sourcePost, true);
             //team members
             $this->data['teamlist'] = $this->parser->parse('_teamlistedit', $this->data, true);
@@ -309,13 +311,15 @@ class Post extends Application {
         }
         
         $this->data['newComment'] = $this->parser->parse('createcomment', $this->data, true);
-        $this->data['commentsBox'] = $this->parser->parse('commentsbox', $this->data, true);
-        
-        
-        
+        $this->data['commentsBox'] = makeCommentBox($this->data['comments'], 
+                                                    isset($_SESSION['admin']),
+            isset($_SESSION['commentToEdit'])       ? $_SESSION['commentToEdit']   : null);
         
         $this->render();
     }
+    
+    
+    
     
     public function postComment()
     {
