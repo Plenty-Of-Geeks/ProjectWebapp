@@ -14,26 +14,27 @@ class SignUp extends Application
         parent::__construct();
         $this->load->helper('formfields');
         $this->load->model('users');
+        $this->load->library('form_validation');
     }
     
     public function index()
     {        
         $this->data['pagebody'] = 'signup';
         
-        $user = $this->users->create();
-        
         if (isset($_SESSION['signup_error']))
         {
-            $this->data['message'] = 'User already exists';
+            $this->data['message'] = $_SESSION['signup_error'];
         }
         else
         {
             $this->data['message'] = '';
         }
         
+        $user = $this->restore_signup_session();
+        
         $this->data['username'] = makeTextField('Username', 'username', $user->username);
-        $this->data['password'] = makePasswordField('Password', 'password', $user->password);
-        $this->data['password2'] = makePasswordField('Password', 'password2', $user->password);
+        $this->data['password'] = makePasswordField('Password', 'password', '');
+        $this->data['password2'] = makePasswordField('Password', 'password2', '');
         $this->data['email'] = makeTextField('Email', 'email', $user->email);
         
         $this->data['submit'] = makeSubmitButton( 
@@ -44,8 +45,20 @@ class SignUp extends Application
         $this->render();
     }
     
+    public function restore_signup_session()
+    {
+        $user = $this->users->create();
+        
+        $user->username = (isset($_SESSION['username'])) ? $_SESSION['username'] : '';   
+        $user->email = (isset($_SESSION['email'])) ? $_SESSION['email'] : '';
+        
+        return $user;
+    }
+    
     public function confirm()
     {
+        $this->signup_validation();
+        
         $record = $this->users->create();
         // Extract submitted fields
         $record->username = $this->input->post('username');
@@ -57,8 +70,15 @@ class SignUp extends Application
         $users = $this->users->some('username', $this->input->post('username'));
         foreach ($users as $user)
         {
-            $_SESSION['signup_error'] = 'username taken';
+            $_SESSION['signup_error'] = 'Username Taken';
             redirect('/SignUp');
+        }
+        
+        $users2 = $this->users->some('email', $record->email);
+        foreach ($users2 as $user)
+        {
+            $_SESSION['signup_error'] = 'Email Taken';
+            redirect('SignUp');
         }
         
         // Save stuff
@@ -72,9 +92,29 @@ class SignUp extends Application
         }
         
         unset($_SESSION['signup_taken']);
+        unset($_SESSION['username']);
+        unset($_SESSION['password']);
+        unset($_SESSION['password2']);
+        unset($_SESSION['email']);
         
         redirect('/Post');
     }
     
-    
+    public function signup_validation()
+    {
+        /* Form Validation */
+        $this->form_validation->set_rules('username', 'Username', 'required');
+        $this->form_validation->set_rules('password', 'Password', 'required');
+        $this->form_validation->set_rules('password2', 'Password', 'required');
+        $this->form_validation->set_rules('email', 'Email', 'required');
+        if ($this->form_validation->run() == false)
+        {
+            $_SESSION['signup_error'] = 'Missing Required Field.';
+            $_SESSION['username'] = $this->input->post('username');
+            $_SESSION['password'] = $this->input->post('password');
+            $_SESSION['password2'] = $this->input->post('password2');
+            $_SESSION['email'] = $this->input->post('email');
+            redirect('../SignUp');
+        }
+    }
 }

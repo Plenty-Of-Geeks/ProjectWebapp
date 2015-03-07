@@ -155,6 +155,17 @@ class Post extends Application {
             $_SESSION['post_max_team_count'] = $this->input->post('max_team_count');
             redirect('../Post/create_post');
         }
+        
+        $this->form_validation->set_rules('max_team_count', 'Max Team Count', 'numeric');
+        if ($this->form_validation->run() == false)
+        {
+            $_SESSION['create_post_error'] = 'Max Team Count must be numeric.';
+            $_SESSION['post_title'] = $this->input->post('title');
+            $_SESSION['post_content'] = $this->input->post('content');
+            $_SESSION['post_team_name'] = $this->input->post('team_name');
+            $_SESSION['post_max_team_count'] = $this->input->post('max_team_count');
+            redirect('../Post/create_post');
+        }
     }
     
     /* Creates and returns the team record */
