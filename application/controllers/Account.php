@@ -13,15 +13,33 @@ class Account extends Application
     {
         parent::__construct();
         
-        $this->load->helper('formfields');
+        $this->load->helper('formfields');        
         $this->load->model('posts');
+        $this->load->model('users');
     }
 	
+    /* This is ALWAYS going to be the logged in user's profile */
      public function index()
     {        
-        $this->data['pagebody'] = 'account';
-
+        $this->data['pagebody'] = 'account'; //Set default veiw to View/account.php      
+        $allow_edit = false; //Boolean to check on privillges 
         
+        //The profile pic (static for now, will make it dynamic later)
+        $this->data['profile_pic'] = "<img src='../assets/images/profile_pic.png'>";      
+        
+        $query = $this->users->get($_SESSION['user_id']);        
+        print_r($query);
+        
+        $this->data['username'] = $query->username;
+        $this->data['email'] = $query->email;
+        
+        //if the clicked profile is the same as the user currently login in
+        if(isset($_SESSION['selected_profile']) == isset($_SESSION['user_id']))
+            $allow_edit = true;
+             
+
+        //Negatively checking
+      //  if(!isset($_SESSION['user_id']) || $_SESSION['user_id'] != 
         
       
         $this->render();

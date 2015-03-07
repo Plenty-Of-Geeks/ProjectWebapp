@@ -1,0 +1,30 @@
+/*
+Styles for the profile page
+*/
+/* 
+    Created on : 7-Mar-2015
+    Author     : Edward "Beast Mode" Leung
+*/
+
+
+#profile-pic-text{
+    float:left;
+     margin-left: auto;
+    margin-right: auto;
+    width: 10px;
+    height: 100%;
+}
+.profile-pic img{
+    float: left;
+    margin-left: auto;   
+    margin-right: auto;
+    height:168px;
+    width: 168px;
+}
+#profile-info{
+    float:left;
+    width:80%;
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;  
+}

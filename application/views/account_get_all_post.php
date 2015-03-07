@@ -9,8 +9,4 @@
     <a href="/SignUp">Sign Up Here</a>
 </section>
 -->
-    </article>
-
     {display_all_post}
-    
-    </article>  
