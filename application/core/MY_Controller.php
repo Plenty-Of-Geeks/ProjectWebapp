@@ -68,7 +68,8 @@ class Application extends CI_Controller {
         $this->data['menubar'] = $this->parser->parse('_menubar', $this->data['menu_choices'], true);
         $this->data['content'] = $this->parser->parse($this->data['pagebody'], $this->data, true);
         $this->data['sidebar'] = $this->parser->parse('_sidebar', $this->data['sidebar_choices'], true);
-        
+        $this->data['css'] = base_url() . 'assets/styles'; 
+    
         // finally, build the browser page!
         $this->data['data'] = &$this->data;
         $this->parser->parse('_template', $this->data);

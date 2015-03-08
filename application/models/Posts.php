@@ -81,5 +81,15 @@ class Posts extends MY_Model
         $query = $this->db->get($this->_tableName);
         return $query->result();
     }
+    
+    public function get_all_post_by_username($username)
+    {
+        $this->db->join('teams', 'posts.team_id = teams.team_id');
+        $this->db->join('users', 'posts.poster_id = users.user_id');
+        $this->db->where('username',$username);
+        $this->db->order_by('post_id','desc');
+        $query = $this->db->get($this->_tableName);
+        return $query->result();
+    }
 
 }
