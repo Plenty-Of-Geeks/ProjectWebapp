@@ -33,6 +33,7 @@
     <a href="/Account/show_posts/{username}"> Click here to get all your posts </a>
     <br/>
     <a href="/Account/get_teams"> Click here to see all the teams you're in </a>
+    {edit}    
     </div>
 
 </div>

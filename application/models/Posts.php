@@ -33,7 +33,7 @@ class Posts extends MY_Model
         return $query->result();
     }
     
-    
+    /** Gets all the post by the poster id **/
     public function get_all_post_by_poster_id($poster_id)
     {
         $this->db->join('teams', 'posts.team_id = teams.team_id');
@@ -44,6 +44,7 @@ class Posts extends MY_Model
           return $query->result();
     }
     
+    /** Gets all the posts by the username **/
     public function get_all_post_by_username($username)
     {
         $this->db->join('teams', 'posts.team_id = teams.team_id');
