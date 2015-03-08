@@ -273,6 +273,18 @@ class MY_Model extends CI_Model implements Active_Record {
             return null;
     }
 
+    /* Add property to object 
+     * $obj is the object to add to
+     * $key is the name of the property
+     * $value is the value of the property     
+     */
+    function append_object($obj, $key, $value = null)
+    {
+        $obj_array = (array)$obj;
+        $obj_array[$key] = $value;
+        
+        return (object)$obj_array;
+    }
 }
 
 class MY_Model2 extends MY_Model {

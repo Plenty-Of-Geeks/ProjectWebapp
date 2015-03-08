@@ -15,6 +15,7 @@
     <div class="padded">
         {postInfo}
         {newComment}
+        {teamlist}
     </div>
     <div class="fullWidth padded">
         {commentsBox}

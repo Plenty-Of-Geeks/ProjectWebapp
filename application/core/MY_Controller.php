@@ -50,7 +50,7 @@ class Application extends CI_Controller {
         }
         else
         {
-            array_push($this->data['menu_choices']['menudata'], array('name' => 'Sign In', 'link' => '../SignIn'));
+            array_push($this->data['menu_choices']['menudata'], array('name' => 'Sign In', 'link' => '/SignIn'));
         }
         
         $this->data['sidebar_choices'] = array(

@@ -16,8 +16,10 @@ class Post extends Application {
         $this->load->model('comments');
         $this->load->model('teams');
         $this->load->model('team_members');
+        $this->load->model('users');
         $this->load->helpers('formfields');
         $this->load->library('form_validation');
+        
     }
     
     public function index()
@@ -25,7 +27,15 @@ class Post extends Application {
         $this->data['pagebody'] = 'post';
 
         /* Get Latest Posts */
-        $this->data['posts'] = $this->posts->get_all_posts();
+        if (isset($_SESSION['user_id']))
+        {
+            $this->data['posts'] = $this->posts->get_all_posts($_SESSION['user_id']);
+        }
+        else
+        {
+            $this->data['posts'] = $this->posts->get_all_posts();
+        }
+
 
         //check to see if your an admin, if so load admin controls
         if (isset($_SESSION['admin']))
@@ -51,8 +61,10 @@ class Post extends Application {
  
         $this->setup_post_input_fields();
         
-        $this->setup_error_message();
+        $this->setup_post_error_message();
 
+        $this->setup_join_error_message();
+        
         $this->data['fsubmit'] = makeSubmitButton( 
                 'Add Post', 
                 "Click here to validate the post data", 
@@ -68,7 +80,7 @@ class Post extends Application {
         $team = $this->restore_team_session($this->teams->create());
             
         $this->data['title']   = makeTextField('Title *', 'title', $post->title); 
-        $this->data['content'] = makeTextField('Content *', 'content', $post->content);
+        $this->data['content'] = $this->data['content'] = makeTextArea('Content*', 'content', $post->content, "", 1000, 25, 5, false);
         $this->data['team_name'] = makeTextField('Team Name *', 'team_name', $team->team_name);
         $this->data['max_team_count'] = makeTextField('Max Team Members *', 'max_team_count', $team->max_team_count);
     }
@@ -101,7 +113,7 @@ class Post extends Application {
         return $team;
     }
     
-    public function setup_error_message()
+    public function setup_post_error_message()
     {
         if (isset($_SESSION['create_post_error']))
         {
@@ -145,6 +157,17 @@ class Post extends Application {
             $_SESSION['post_max_team_count'] = $this->input->post('max_team_count');
             redirect('../Post/create_post');
         }
+        
+        $this->form_validation->set_rules('max_team_count', 'Max Team Count', 'numeric');
+        if ($this->form_validation->run() == false)
+        {
+            $_SESSION['create_post_error'] = 'Max Team Count must be numeric.';
+            $_SESSION['post_title'] = $this->input->post('title');
+            $_SESSION['post_content'] = $this->input->post('content');
+            $_SESSION['post_team_name'] = $this->input->post('team_name');
+            $_SESSION['post_max_team_count'] = $this->input->post('max_team_count');
+            redirect('../Post/create_post');
+        }
     }
     
     /* Creates and returns the team record */
@@ -166,8 +189,6 @@ class Post extends Application {
         }
         
         $team->team_id = $this->db->insert_id();
-        
-        echo "<script type='text/javascript'>alert('$team->team_id');</script>";
         
         return $team;
     }
@@ -224,46 +245,84 @@ class Post extends Application {
     {
         //Set up the base pagebody
         $this->data['pagebody'] = 'show_post';
+        $this->load->helper('commentbox');
+        $this->load->helper('button');
+        
         //Create a new row for posts
         $comment = $this->comments->create();
         
-        
-        $this->data['comments'] = $this->comments->get_where('post_id', $_SESSION['currentPost']);
+        $this->data['comments'] = $this->comments->some('post_id', $_SESSION['currentPost']);
         
         $sourcePost = $this->posts->get_full($_SESSION['currentPost']);
-        
-        //print_r($sourcePost);
-        //print_r($this->data['comments']);
-        
+
         //Fill the form data for the comment box
         if(isset($_SESSION['user_id']))
         {
             $this->data['title']   = makeTextField('Title', 'title', $comment->title); 
-            $this->data['content'] = makeTextArea('Comment', 'content', $comment->content, "", -1, 25, 5, false);
-        $this->data['fsubmit'] = makeSubmitButton(  
+            $this->data['content'] = makeTextArea('Comment', 'content', $comment->content, "", 1000, 25, 5, false);
+            $this->data['fsubmit'] = makeSubmitButton(  
                 'Add Comment', 
                 "Click here to validate the post data", 
                 'btn-success button');
+            $this->data['signin'] = "";
         }
         else
         {
-            $this->data['title']   = ""; 
-            $this->data['content'] = "";
-            $this->data['fsubmit'] = makeSubmitButton(  
-                'SignIn', 
-                "Click here to validate the post data", 
-                'btn-success button');
+            $this->data['title'] = $this->data['content'] = "";
+            $this->data['fsubmit'] = "";
+            
+            $this->data['signin'] = makePHPButton("../SignIn", "Sign In", "a", "a", "button center");
         }
+        
+        //TEAMLIST
+        $curTeamID = $sourcePost->team_id;//get tareget team_Id
+        //get all team members from target team
+        $team_members = $this->team_members->some('team_id', $curTeamID);
+        
+        //team members
+        $teams_users_members = $this->team_members->get_team_member_details($curTeamID);
+                
+        /*foreach ($team_members as $team_member)
+        {
+            $userID = $team_member->user_id;
+            $user = $this->users->get($userID);
+            $userName = $user->username;
+            array_push($usernames, $user);          
+        }*/
+        
+        //team members
+        $this->data['teamlistview'] = $teams_users_members;
+        
         //Load the various view fragments
-        $this->data['postInfo'] = $this->parser->parse('_justone', $sourcePost, true);
+        if (isset($_SESSION['admin']))
+        {
+            //$curPost = $this->posts->
+            $sourcePost->title = makeTextField('Title', 'title', $sourcePost->title);
+            $sourcePost->content = makeTextArea('Comment', 'content', $sourcePost->content, "", 1000, 25, 5, false);
+            
+            $sourcePost->max_team_count = makeTextArea('Max Number of Team Members:', 'mtc', $sourcePost->max_team_count, "", 2, 2, 1, false);
+            
+            $this->data['postInfo'] = $this->parser->parse('_justoneedit', $sourcePost, true);
+            //team members
+            $this->data['teamlist'] = $this->parser->parse('_teamlistedit', $this->data, true);
+        }
+        else
+        {
+            $this->data['postInfo'] = $this->parser->parse('_justone', $sourcePost, true);
+            //team members
+            $this->data['teamlist'] = $this->parser->parse('_teamlist', $this->data, true);
+        }
+        
         $this->data['newComment'] = $this->parser->parse('createcomment', $this->data, true);
-        $this->data['commentsBox'] = $this->parser->parse('commentsbox', $this->data, true);
-        
-        
-        
+        $this->data['commentsBox'] = makeCommentBox($this->data['comments'], 
+                                                    isset($_SESSION['admin']),
+            isset($_SESSION['commentToEdit'])       ? $_SESSION['commentToEdit']   : null);
         
         $this->render();
     }
+    
+    
+    
     
     public function postComment()
     {
@@ -302,6 +361,26 @@ class Post extends Application {
         $team_member->user_id = $_SESSION['user_id'];
         $this->team_members->add($team_member);
         
+        /* Update Team Record */
+        $team_record = $this->teams->get($team_id);
+        $team_record->team_count = $team_record->team_count + 1;
+        $this->teams->update($team_record);
+        
         redirect('../Post');
     }
+    
+    public function setup_join_error_message()
+    {      
+        if(isset($_SESSION['join_error_message']))
+        {
+            $this->data['join_error_message'] = $_SESSION['join_error_message'];         
+            unset($_SESSION['join_error_message']);
+        }
+        else
+        {
+            $this->data['join_error_message'] = '';
+        }
+        $this->data['join_error_message'] = 3;
+    }
+
 }
