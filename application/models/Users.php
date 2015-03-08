@@ -20,11 +20,5 @@ class Users extends MY_Model
          $query = $this->db->get($this->_tableName);
           return $query->result()[0];
     }
-    
-    /** Returns max length for parameter **/
-    public function max_length($column)
-    {
-        return $this->db->query('select MAX(LENGTH('.$column.')) from '.$this->_tableName);
-    }
 }
 
