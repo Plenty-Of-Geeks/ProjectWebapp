@@ -22,28 +22,8 @@ class Account extends Application
     /** The index. This will only get called when user clicks the menu "account" tab **/
     /** Which means the user is going straight into their account **/
      public function index()
-    {        
-        $this->data['pagebody'] = 'account'; //Set default veiw to View/account.php      
-        $allow_edit = false; //Boolean to check on privillges 
-        
-        //The profile pic (static for now, will make it dynamic later)
-        $this->data['profile_pic'] = "<img src='" . $this->users->get($_SESSION['user_id'])->profile_picture."'>";      
-        
-        $query = $this->users->get($_SESSION['user_id']);        
-        
-        $this->data['username'] = $query->username;
-        $this->data['email'] = $query->email;
-        
-        //if the clicked profile is the same as the user currently login in
-        if(isset($_SESSION['selected_profile']) == isset($_SESSION['user_id']))
-            $allow_edit = true;
-             
-
-        //Negatively checking
-      //  if(!isset($_SESSION['user_id']) || $_SESSION['user_id'] != 
-        
-      
-        $this->render();
+    {          
+       redirect('../Account/profile/'.$_SESSION['username']);
     }
     
     /** This is for YOUR account only **/
