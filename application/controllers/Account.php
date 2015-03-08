@@ -76,7 +76,7 @@ class Account extends Application
         //If either it's an admin or own account, then can edit
         if(isset($_SESSION['admin']) && $_SESSION['admin'] )
             $can_edit = true;
-        if($_SESSION['username'] == $username)
+        if(isset($_SESSION['username']) && $_SESSION['username'] == $username)
             $can_edit = true;
                       
         //Logic to see if you can edit the profile
