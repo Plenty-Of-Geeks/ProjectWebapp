@@ -58,7 +58,7 @@ class Post extends Application {
     {
         if (!isset($_SESSION['user_id']))
         {
-            redirect('../SignIn');
+            redirect('/SignIn');
         }
         
         $this->data['pagebody'] = 'createpost';
@@ -159,7 +159,7 @@ class Post extends Application {
             $_SESSION['post_content'] = $this->input->post('content');
             $_SESSION['post_team_name'] = $this->input->post('team_name');
             $_SESSION['post_max_team_count'] = $this->input->post('max_team_count');
-            redirect('../Post/create_post');
+            redirect('/Post/create_post');
         }
         
         $this->form_validation->set_rules('max_team_count', 'Max Team Count', 'numeric');
@@ -170,7 +170,7 @@ class Post extends Application {
             $_SESSION['post_content'] = $this->input->post('content');
             $_SESSION['post_team_name'] = $this->input->post('team_name');
             $_SESSION['post_max_team_count'] = $this->input->post('max_team_count');
-            redirect('../Post/create_post');
+            redirect('/Post/create_post');
         }
     }
     
@@ -240,7 +240,7 @@ class Post extends Application {
         /* Get Selected Posts */
         $_SESSION['currentPost'] = $this->input->post('postId');
         
-        redirect('../Post/showPost');
+        redirect('/Post/showPost');
     }
     
     public function showPost($currPost)
@@ -351,7 +351,7 @@ class Post extends Application {
     public function postComment($toPost)
     {
         
-        if(!isset($_SESSION['user_id'])) redirect("../SignIn");
+        if(!isset($_SESSION['user_id'])) redirect("/SignIn");
         
         $record = $this->comments->create();
         
@@ -365,12 +365,12 @@ class Post extends Application {
         if (empty($record->comment_id)) $this->comments->add($record); 
         else $this->comments->update($record); 
         
-        redirect('../Post/showPost/' . $toPost);
+        redirect('/Post/showPost/' . $toPost);
     }
         
     public function join_team($teamId)
     {    
-        if (!isset($_SESSION['user_id'])) redirect('../SignIn');
+        if (!isset($_SESSION['user_id'])) redirect('/SignIn');
                 
         $team_member = $this->team_members->create();
         $team_member->team_id = $teamId;
@@ -382,7 +382,7 @@ class Post extends Application {
         $team_record->team_count = $team_record->team_count + 1;
         $this->teams->update($team_record);
         
-        redirect('../Post');
+        redirect('/Post');
     }
     
     public function setup_join_error_message()

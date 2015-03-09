@@ -44,6 +44,11 @@ and open the template in the editor.
    color: #000;
 }
 
+.commentContent p{
+   background-color: rgba(255,255,255,0.2);
+   color: #fff;
+    text-indent: 2em;
+}
 
 
 .button{
@@ -127,9 +132,27 @@ and open the template in the editor.
 .userLink{
     color: black; 
     text-decoration: none;
+    margin: 0.2em;
 }
 
 
 .userLink:hover{
     color: blue; 
+}
+
+.teamMember{
+    padding: 0.5em;
+    border-style: double;
+    border-radius: 5px 5px 5px 5px;
+    margin: 0.2em;
+    text-align: center;
+}
+
+.teamMember a{
+    font-weight: bold;
+    font-size: 2em;
+}
+
+.teamBox{
+    margin-left:auto;
 }

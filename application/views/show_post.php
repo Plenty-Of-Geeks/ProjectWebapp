@@ -18,8 +18,10 @@
             <h2>Add A Comment</h2>    
             {newCommentForm}
         </div>
-        <div class="teamBox">
-            <div class="box floatLeft">
+        <div class="teamBox fullWidth">
+            <div class=" box floatLeft ">
+                <h1 class="center teamTitle">Team Members</h1>
+                <hr />
                 {teamlist}
             </div>
         </div>
