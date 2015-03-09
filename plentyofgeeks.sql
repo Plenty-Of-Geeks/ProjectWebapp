@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 06, 2015 at 11:15 PM
+-- Generation Time: Mar 09, 2015 at 02:19 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -34,16 +34,6 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `post_id` int(11) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `comments`
---
-
-INSERT INTO `comments` (`comment_id`, `poster_id`, `title`, `content`, `post_id`) VALUES
-(1, 2, '0', '0', 37),
-(2, 2, '0', '0', 37),
-(3, 2, '0', '0', 37),
-(4, 2, 'fadfas', 'asdfasdf', 37);
-
 -- --------------------------------------------------------
 
 --
@@ -56,14 +46,14 @@ CREATE TABLE IF NOT EXISTS `posts` (
   `content` text NOT NULL,
   `poster_id` int(11) NOT NULL,
   `team_id` int(11) unsigned NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `posts`
 --
 
 INSERT INTO `posts` (`post_id`, `title`, `content`, `poster_id`, `team_id`) VALUES
-(40, 'rtert', 'erterte', 1, 41);
+(53, 'Galactic Warrior', 'Kill them aliens.', 1, 54);
 
 -- --------------------------------------------------------
 
@@ -76,20 +66,14 @@ CREATE TABLE IF NOT EXISTS `teams` (
   `team_count` int(11) NOT NULL,
   `max_team_count` int(11) NOT NULL,
   `team_name` text NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `teams`
 --
 
 INSERT INTO `teams` (`team_id`, `team_count`, `max_team_count`, `team_name`) VALUES
-(35, 1, 19, 'Team Shi*'),
-(36, 1, 19, 'Team Shi*'),
-(37, 1, 10, 'tea'),
-(38, 1, 1000, 'New Team '),
-(39, 1, 10, 'New Team '),
-(40, 1, 10, 'Thea'),
-(41, 1, 9999, 'ertert');
+(54, 1, 5, 'Team Glaxy');
 
 -- --------------------------------------------------------
 
@@ -101,20 +85,14 @@ CREATE TABLE IF NOT EXISTS `team_members` (
 `team_member_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `team_id` int(11) unsigned NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `team_members`
 --
 
 INSERT INTO `team_members` (`team_member_id`, `user_id`, `team_id`) VALUES
-(4, 1, 37),
-(5, 1, 37),
-(6, 1, 38),
-(7, 1, 38),
-(8, 1, 39),
-(9, 1, 40),
-(10, 1, 41);
+(31, 1, 54);
 
 -- --------------------------------------------------------
 
@@ -127,16 +105,18 @@ CREATE TABLE IF NOT EXISTS `users` (
   `username` text NOT NULL,
   `password` text NOT NULL,
   `email` text NOT NULL,
-  `admin` tinyint(1) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+  `admin` tinyint(1) NOT NULL,
+  `profile_picture` text NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`user_id`, `username`, `password`, `email`, `admin`) VALUES
-(1, 'katnapped', 'wael274', 'katnapped@hotmail.com', 1),
-(2, 'goggy', 'derp', 'derp@hotmail.com', 0);
+INSERT INTO `users` (`user_id`, `username`, `password`, `email`, `admin`, `profile_picture`) VALUES
+(1, 'katnapped', 'wael274', 'katnapped@hotmail.com', 1, '/assets/images/profile_pic.png'),
+(2, 'goggy', 'derp', 'derp@hotmail.com', 0, '/assets/images/profile_pic.png'),
+(3, 'rukat', 'katnapped', 'katnapped@hotmail.com', 0, '/assets/images/profile_pic.png');
 
 --
 -- Indexes for dumped tables
@@ -185,22 +165,22 @@ MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=41;
+MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=54;
 --
 -- AUTO_INCREMENT for table `teams`
 --
 ALTER TABLE `teams`
-MODIFY `team_id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=42;
+MODIFY `team_id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=55;
 --
 -- AUTO_INCREMENT for table `team_members`
 --
 ALTER TABLE `team_members`
-MODIFY `team_member_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+MODIFY `team_member_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=32;
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- Constraints for dumped tables
 --

@@ -71,7 +71,7 @@ class Posts extends MY_Model
         return $result_post;
     }
     
-    
+    /** Gets all the post by the poster id **/
     public function get_all_post_by_poster_id($poster_id)
     {
         $this->db->join('teams', 'posts.team_id = teams.team_id');
@@ -81,5 +81,57 @@ class Posts extends MY_Model
         $query = $this->db->get($this->_tableName);
         return $query->result();
     }
+    
+    /** Gets all the posts by the username **/
+    public function get_all_post_by_username($username)
+    {
+        $this->db->join('teams', 'posts.team_id = teams.team_id');
+        $this->db->join('users', 'posts.poster_id = users.user_id');
+        $this->db->where('username',$username);
+        $this->db->order_by('post_id','desc');
+        $query = $this->db->get($this->_tableName);
+        return $query->result();
+    }
+    
+    /** Delete Post given a post_id **/
+    /** To properly drop a post row, you need to drop all the members of the team **/
+    /** as well as the team itself **/
+     
+    public function deletePost($post_id)
+    {      
+            $CI =& get_instance();
+            $CI->load->model('teams');
+            $CI->load->model('team_members');
+            $CI->load->model('comments');
+            
+           $this->db->where('post_id', $post_id);
+           $post_id_row = $this->db->get($this->_tableName)->result();
+           
+           $teamID = $post_id_row->team_id;
 
+          
+           $teamMembers = $this->team_members->some('team_id', $teamID);
+           $comments = $this->comments->some('post_id', $post_id);
+
+           //Deleting the row in post table
+           $this->delete($post_id_row);
+           
+           //delete all the team member row from this post
+           foreach ($teamMembers as $user)
+           {
+               $teamMemberID = $user->team_member_id;
+               $this->team_members->delete($teamMemberID);
+           }
+
+           //delete the team table from this post
+           $this->teams->delete($teamID);
+
+           //delete all the comment tables from this post
+           foreach ($comments as $comment)
+           {
+               $commentID = $comment->comment_id;
+               $this->comments->delete($commentID);
+           }
+
+    }
 }

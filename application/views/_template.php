@@ -1,24 +1,15 @@
-<?php
-
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-?>
-
-
 <!doctype html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Plenty of Geeks</title>
 <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
-<link rel="stylesheet" href="../../assets/styles.css" type="text/css" />
-<link rel="stylesheet" href="../../assets/styles/pog-styles.css" type="text/css" />
+
+<link rel="stylesheet" href="{css}/styles.css" type="text/css" />
+<link rel="stylesheet" href="{css}/pog-styles.css" type="text/css" />
 
 <!-- Ed's profile page stylezz -->
-<link rel="stylesheet" href="../../assets/profile-page.css" type="text/css" />
+<link rel="stylesheet" href="{css}/profile-page.css" type="text/css" />
 
 <script src="../../assets/js/pog-script.js"></script>
 <!--[if lt IE 9]>
