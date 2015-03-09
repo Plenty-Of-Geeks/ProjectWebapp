@@ -1,14 +1,3 @@
-<!--<section id="content">
-    <h2> Sign In </h2>
-    <form action="/SignIn/confirm" method="post">
-    {username}
-    {pass
-</section>word}
-    {submit}
-    </form> 
-    <a href="/SignUp">Sign Up Here</a>
-</section>
--->
 <div>
     <div id="profile-pic-text"><!-- The div that handles the profile pic and text underneath -->
 
@@ -33,7 +22,8 @@
     <a href="/Account/show_posts/{username}"> Click here to get all your posts </a>
     <br/>
     <a href="/Account/get_teams"> Click here to see all the teams you're in </a>
-    {edit}    
+    {edit}  
+    {delete}
     </div>
 
 </div>

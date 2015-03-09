@@ -14,17 +14,18 @@ class Users extends MY_Model
     }
     
     /** Searches the table by username **/
+    /** Returns NULL on no user found **/
     public function get_by_username($username)
     {
         $this->db->where('username',$username);       
          $query = $this->db->get($this->_tableName);
-          return $query->result()[0];
-    }
-    
-    /** Returns max length for parameter **/
-    public function max_length($column)
-    {
-        return $this->db->query('select MAX(LENGTH('.$column.')) from '.$this->_tableName);
+         if(count($query->result()) == 0)
+         {
+            return NULL;
+         }else
+         {
+            return $query->result()[0];
+         }
     }
 }
 

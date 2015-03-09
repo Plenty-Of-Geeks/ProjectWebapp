@@ -1,20 +1,13 @@
-<!--<section id="content">
-    <h2> Sign In </h2>
-    <form action="/SignIn/confirm" method="post">
-    {username}
-    {pass
-</section>word}
-    {submit}
-    </form> 
-    <a href="/SignUp">Sign Up Here</a>
-</section>
--->
-<div>
+<form action="../edit_save/" method="post">
     <br/>
-    {username}
+    {form_username}
     <br/>
-    {email}
+    {form_email}
     <br/>
-    {password}
-    
-</div>
+    {form_password}
+    <br/>
+    {form_confirm_password}
+    <br/>
+    {save}
+</form>
+ {cancel}
