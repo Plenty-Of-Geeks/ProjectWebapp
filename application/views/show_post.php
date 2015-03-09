@@ -14,8 +14,15 @@
 
     <div class="padded">
         {postInfo}
-        {newComment}
-        {teamlist}
+        <div class="center content halfWidthPadded floatLeft">
+            <h2>Add A Comment</h2>    
+            {newCommentForm}
+        </div>
+        <div class="teamBox">
+            <div class="box floatLeft">
+                {teamlist}
+            </div>
+        </div>
     </div>
     <div class="fullWidth padded">
         {commentsBox}

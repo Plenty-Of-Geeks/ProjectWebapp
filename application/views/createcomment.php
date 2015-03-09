@@ -1,9 +1,5 @@
-<div class="center content halfWidthPadded floatLeft">
-    <h2> Add A Comment</h2>    
-    <form action="/Post/postComment" method="post">
+<form action="/Post/postComment/{currPost}" method="post">
         {title}
         {content}
         {fsubmit}
-    </form> 
-        {signin}
-</div>
+</form>

@@ -16,7 +16,7 @@ if (!defined('APPPATH'))
  */
 if (!function_exists('makeCommentBox')) {
 
-    function makeCommentBox($comments, $admin = false, $commentToEdit = null ) {
+    function makeCommentBox($comments, $commentToEdit = null, $userid = null, $admin = false ) {
         $CI = &get_instance();
         
         if (!function_exists('makePHPButton')) $CI->load->helper('button_helper.php');
@@ -30,7 +30,7 @@ if (!function_exists('makeCommentBox')) {
             {
                 if($commentToEdit == null || $commentToEdit != $comment->comment_id)
                 {
-                    $comment->adminContent .= makePHPButton("../Admin/editComment", 
+                    $comment->adminContent .= makePHPButton("/Admin/editComment/" . $comment->post_id . '/' . $comment->comment_id, 
                                                           "Edit", 
                                                           "cId", 
                                                           $comment->comment_id, 
@@ -38,7 +38,7 @@ if (!function_exists('makeCommentBox')) {
                 }
                 else
                 {
-                    $comment->adminContent   .= '<form action="../Admin/saveComment" method="post">';
+                    $comment->adminContent   .= '<form action="/Admin/saveComment/' . $comment->post_id . '" method="post">';
                     $comment->adminContent   .= makeTextField('Title', 'title', $comment->title); 
                     $comment->adminContent   .= makeTextArea('Comment', 'content', $comment->content, "", 1000, 25, 5, false);
                     $comment->adminContent   .= makeSubmitButton("Save", "Save", "button");
@@ -46,7 +46,7 @@ if (!function_exists('makeCommentBox')) {
                     $comment->title = "";
                     $comment->content = "";
                 }
-                $comment->adminContent .= makePHPButton("../Admin/deleteComment", 
+                $comment->adminContent .= makePHPButton("/Admin/deleteComment/" . $comment->post_id . '/' . $comment->comment_id, 
                                                           "Delete", 
                                                           "cId", 
                                                           $comment->comment_id, 

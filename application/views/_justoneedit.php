@@ -2,10 +2,12 @@
     <div id="quest" class="wheatBox">
         <div class="center">
             
-            <form action="/Admin/editPostTitle" method="post">
-                <h1 id="title" name='title'>{title}</h1>
-                <input name='postId' value='{post_id}' hidden="true" />
-                <button type='submit' class='button'>Save</button>
+                <h1 id="title" name='title'>
+                    <form action="/Admin/editPostTitle" method="post">
+                    {title}
+                    <input name='postId' value='{post_id}' hidden="true" />
+                    <button type='submit' class='button'>Save</button>
+                </h1>
             </form>
             <h3>Quest Giver: {username}</h3>
         </div>
