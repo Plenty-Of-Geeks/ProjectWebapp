@@ -1,6 +1,6 @@
 
 <section id="content">
-    <h2> Admin Controls </h2>
+    <h2> User Search </h2>
     <form action="/Admin/search" method="post">
     {username}
     {search}
