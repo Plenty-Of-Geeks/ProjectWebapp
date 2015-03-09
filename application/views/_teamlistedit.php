@@ -1,7 +1,7 @@
 {teamlistview}
 
 <div class="teamMember floatLeft">
-    <a class="userLink" href="../Account/profile/{username}">{username}</a>
+    <a class="userLink" href="/Account/profile/{username}">{username}</a>
     <div class="content floatRight">
         <form action="/Admin/deletePostMembers/{post_id}" method="post">
             <input name='teamMemberId' value='{team_member_id}' hidden="true" />
