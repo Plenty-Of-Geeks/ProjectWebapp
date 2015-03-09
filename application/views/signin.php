@@ -6,5 +6,5 @@
     {password}
     {submit}
     </form> 
-    <a href="/SignUp">Sign Up Here</a>
+    {signup}
 </section>

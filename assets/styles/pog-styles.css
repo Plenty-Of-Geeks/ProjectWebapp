@@ -44,6 +44,11 @@ and open the template in the editor.
    color: #000;
 }
 
+.commentContent p{
+   background-color: rgba(255,255,255,0.2);
+   color: #fff;
+    text-indent: 2em;
+}
 
 
 .button{
@@ -66,7 +71,6 @@ and open the template in the editor.
     font-family: sans-serif;
     font-size: 0.9em;
     text-decoration: none;
-    font-weight: bold;
     color: #FFFFFF;
     text-transform: uppercase;
 }
@@ -77,7 +81,6 @@ and open the template in the editor.
 
 .fontFix{
     font-family: sans-serif;
-    font-weight: bold;
     font-size: 0.9em;
     color: #FFFFFF;
     text-transform: uppercase;
@@ -124,4 +127,32 @@ and open the template in the editor.
     border-color: black;
     background-color: #00A0EB;
     margin-top: 2em;
+}
+
+.userLink{
+    color: black; 
+    text-decoration: none;
+    margin: 0.2em;
+}
+
+
+.userLink:hover{
+    color: blue; 
+}
+
+.teamMember{
+    padding: 0.5em;
+    border-style: double;
+    border-radius: 5px 5px 5px 5px;
+    margin: 0.2em;
+    text-align: center;
+}
+
+.teamMember a{
+    font-weight: bold;
+    font-size: 2em;
+}
+
+.teamBox{
+    margin-left:auto;
 }

@@ -4,7 +4,7 @@
             <h1 id="title">
                 {title}
             </h1>
-            <h3>Quest Giver: <a style=" text-decoration: none;" href="../Account/profile/{username}">{username}</a></h3>
+            <h3>Quest Giver: <a style=" text-decoration: none;" href="/Account/profile/{username}">{username}</a></h3>
         </div>
             <hr />
         <div id='post{post_id}' class="">
@@ -21,8 +21,8 @@
             </div>
             <div class='center'>
                     <div class=" button {isFull} {hasJoined}">
-						<a href="/Post/join_team/{team_id}" > Join </a>
-					</div>
+                        <a href="/Post/join_team/{team_id}" > Join </a>
+                    </div>
             </div>
     </div>
 </div>       
