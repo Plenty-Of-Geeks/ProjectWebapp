@@ -1,1 +1,1 @@
-<button class="btn btn-primary {css_extras}" type="submit" title="{title}">{label}</button>
+<div class="{css_extras}"><input class="fontFix" type="submit" title="save" value="{label}"></div>

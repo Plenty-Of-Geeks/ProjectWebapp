@@ -34,9 +34,8 @@ class Admin extends Application
          
         $this->render();
     }
-    public function deletePost()
+    public function deletePost($targetPostID)
     {
-        $targetPostID = $this->input->post('postId');
         $targetPost = $this->posts->get($targetPostID);
         
         $teamID = $targetPost->team_id;
@@ -68,18 +67,17 @@ class Admin extends Application
         redirect('/Post');
     }
     
-    public function deleteComment()
+    public function deleteComment($postId, $cId)
     {
-        $this->comments->delete($this->input->post('cId'));
-        redirect('../Post/showPost');
+        $this->comments->delete($cId);
+        redirect('../Post/showPost/' . $postId);
     }
-    public function editComment()
+    public function editComment($postId, $cId)
     {
-        print_r($this->input->post('cId'));
-        $_SESSION['commentToEdit'] = $this->input->post('cId');
-        redirect('../Post/showPost');
+        $_SESSION['commentToEdit'] = $cId;
+        redirect('../Post/showPost/' . $postId);
     }
-    public function saveComment()
+    public function saveComment($postId)
     {
         if(!isset($_SESSION['user_id'])) redirect("../SignIn");
         
@@ -94,12 +92,11 @@ class Admin extends Application
         
         unset($_SESSION['commentToEdit']);
         
-        redirect('../Post/showPost');
+        redirect('../Post/showPost/' . $postId);
     }
     
-    public function editPostTitle()
+    public function editPostTitle($targetPostID)
     {
-        $targetPostID = $this->input->post('postId');
         $targetPost = $this->posts->get($targetPostID);
         
         $teamID = $targetPost->team_id;
@@ -117,12 +114,11 @@ class Admin extends Application
         
         
         //go back to showpost
-        redirect('../Post/showPost');
+        redirect('../Post/showPost/' . $targetPostID);
         
     }
-    public function editPostDesc()
+    public function editPostDesc($targetPostID)
     {
-        $targetPostID = $this->input->post('postId');
         $targetPost = $this->posts->get($targetPostID);
         
         $teamID = $targetPost->team_id;
@@ -138,9 +134,9 @@ class Admin extends Application
         $this->posts->update($targetPost);
         
         //go back to showpost
-        redirect('../Post/showPost');
+        redirect('../Post/showPost/' . $targetPostID);
     }
-    public function deletePostMembers()
+    public function deletePostMembers($postId)
     {
         $teamMemberID = $this->input->post('teamMemberId');
         $teamID = $this->input->post('teamId');
@@ -158,12 +154,11 @@ class Admin extends Application
         $this->team_members->delete($teamMemberID);
         
         //go back to showpost
-        redirect('../Post/showPost');
+        redirect('../Post/showPost/' . $postId);
     }
     
-    public function editPostMembersNum()
+    public function editPostMembersNum($targetPostID)
     {
-        $targetPostID = $this->input->post('postId');
         $targetPost = $this->posts->get($targetPostID);
         
         $teamID = $targetPost->team_id;
@@ -187,7 +182,7 @@ class Admin extends Application
         $this->teams->update($team);
        
         //go back to showpost
-        redirect('../Post/showPost'); 
+        redirect('../Post/showPost/' . $targetPostID);
     }
     public function search()
     {

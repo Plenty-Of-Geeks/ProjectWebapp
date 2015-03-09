@@ -1,4 +1,4 @@
-<form action="/Post/postComment/{currPost}" method="post">
+<form action="{handler}" method="post">
         {title}
         {content}
         {fsubmit}

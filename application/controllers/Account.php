@@ -53,6 +53,7 @@ class Account extends Application
         $this->data['pagebody'] = 'profile';        
         //Will add an extra option if user can edit
         $this->data['edit'] = '';
+        $this->data['delete'] = '';
         
         //Can the user accessing this page edit the profile?
         $can_edit = false;
