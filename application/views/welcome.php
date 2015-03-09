@@ -9,12 +9,13 @@
 
 
 
-
+<link rel="stylesheet" href="{css}/styles.css" type="text/css" />
 <section id="content">
     <article>
-        <h2>Introduction Plenty of Geeks</h2>
-             
-    <p>Welcome to Plenty of Geeks</p>	
+        <h2>Welcome to Plenty of Geeks</h2>
+             	
+        <p>Plenty of Geeks is a web service dedicated to connecting game designers and game developers.  Game Designers can 
+        post their ideas and game designers can sign up to help these ideas come to life.</p>
     </article>      
     <div>
         <h3>Latest Posts</h3>
