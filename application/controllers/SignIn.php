@@ -39,7 +39,9 @@ class SignIn extends Application
             $this->data['message'] = '';
         }
         
-       
+        //unset sign up error
+        unset($_SESSION['signup_error']);
+        
         $this->render();
     }
     

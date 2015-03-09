@@ -24,6 +24,7 @@ class Account extends Application
      public function index()
     {          
        redirect('../Account/profile/'.$_SESSION['username']);
+
     }
     
     /** This is for YOUR account only **/
@@ -86,7 +87,12 @@ class Account extends Application
                
         $this->data['username'] = $query->username;
         $this->data['email'] = $query->email;
-
+        
+        //unset sign up error
+        unset($_SESSION['signup_error']);
+        //unset sign in error
+        unset($_SESSION['login_error']);
+        
         $this->render();
     }
     

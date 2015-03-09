@@ -41,12 +41,9 @@ class Application extends CI_Controller {
         {
             array_push($this->data['menu_choices']['menudata'], array('name' => 'Account', 'link' => '/Account'));
             array_push($this->data['menu_choices']['menudata'], array('name' => 'Logout', 'link' => '/SignIn/logout'));
+            //Display a SEARCH tab to be able to search for users
+            array_push($this->data['menu_choices']['menudata'], array('name' => 'Search', 'link' => '/Admin'));
             
-            //IF WE ARE LOGGED IN AS AN ADMIN, DISPLAY ADMIN PAGE IN MENU BAR
-            if (isset($_SESSION['admin']))
-            {
-                array_push($this->data['menu_choices']['menudata'], array('name' => 'Admin', 'link' => '/Admin'));
-            }
         }
         else
         {
