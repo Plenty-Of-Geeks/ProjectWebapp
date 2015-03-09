@@ -1,0 +1,3 @@
+<h3> ARE YOU SURE YOU WANT TO DELETE THIS PROFILE </h3>
+{yes}
+{no}

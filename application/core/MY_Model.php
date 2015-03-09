@@ -58,6 +58,15 @@ interface Active_record {
      * @param mixed $record The record to update, either an object or an associative array.
      */
     function update($record);
+    
+    /**
+     * Update by column
+     * Was going implement return NULL if error, but just don't be stupid   
+     * @param mixed $row The primary to value to match
+     * @param string $column The column to edit
+     * @param $new_value the value to put into the column in 
+     */
+    function update_by_column($row, $column, $new_value);
 
     /**
      * Delete an existing DB record.
@@ -311,6 +320,13 @@ class MY_Model2 extends MY_Model {
         return $query->row();
     }
 
+    //Update DB by column search
+    function update_by_column($row, $column, $new_value) {       
+        $query = $this->db->where($this->_keyField, $row);
+        $query->$column = $new_value;
+        $this->update($query);
+    }
+    
     // Update a record in the DB
     function update($record) {
         // convert object to associative array, if needed

@@ -24,4 +24,12 @@ class Team_Members extends MY_Model
 
         return $query->result();
     }
+    
+    
+    public function get_by_user_id($user_id)
+    {
+        $this->db->where('user_id', $user_id);                
+        $query = $this->db->get($this->_tableName); 
+        return $query->result();
+    }
 }
