@@ -212,7 +212,14 @@ class MY_Model extends CI_Model implements Active_Record {
             return null;
         return $query->row();
     }
-
+    
+    //Update DB by column search
+    function update_by_column($row, $column, $new_value) {       
+        $query = $this->db->where($this->_keyField, $row);
+        $query->$column = $new_value;
+        $this->update($query);
+    } 
+    
     // Update a record in the DB
     function update($record) {
         // convert object to associative array, if needed
@@ -320,12 +327,7 @@ class MY_Model2 extends MY_Model {
         return $query->row();
     }
 
-    //Update DB by column search
-    function update_by_column($row, $column, $new_value) {       
-        $query = $this->db->where($this->_keyField, $row);
-        $query->$column = $new_value;
-        $this->update($query);
-    }
+
     
     // Update a record in the DB
     function update($record) {
