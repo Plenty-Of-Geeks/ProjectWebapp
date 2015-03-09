@@ -83,7 +83,6 @@ class Account extends Application
         //query will hold the selected profile id
         $query = $this->users->get_by_username($username);
         
-        print_r($query);
         $this->data['profile_pic'] = "<img src='"  .base_url() . $query->profile_picture."'>";      
                
         $this->data['username'] = $query->username;

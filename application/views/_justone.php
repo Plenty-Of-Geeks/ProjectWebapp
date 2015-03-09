@@ -20,7 +20,9 @@
                 Party: {team_count} / {max_team_count}
             </div>
             <div class='center'>
-                    <button class="button">Join</button>
+                    <div class=" button {isFull} {hasJoined}">
+						<a href="/Post/join_team/{team_id}" > Join </a>
+					</div>
             </div>
     </div>
 </div>       
