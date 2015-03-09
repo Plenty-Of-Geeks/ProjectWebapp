@@ -138,35 +138,31 @@ class Account extends Application
         $this->data['pagebody'] = 'account_delete';
         
         //loading all the models needed
-        $this->model->load('team_members');
-        $this->model->load('teams');
+        $this->load->model('team_members');
+        
+        $this->load->model('teams');
                 
         //Getting user_id from username
         $user_id = $this->users->get_by_username($_SESSION['edit_profile_username'])->user_id;
         
-        //query
-        $team_member_query = $this->team_members->get_by_user_id($user_id);
-
+        //Getting post_id
+        $post_ids = $this->posts->some('poster_id',$user_id);
         
-        foreach($team_member_query as $team_id)
+        //Deleting all posts
+        foreach($post_ids as $post_id)
         {
-            
+            $this->db->delete('posts',array('post_id' => $post_id->post_id));
         }
         
+        //Deleting the user
+        $this->users->delete($user_id);                       
         
-
+        //Unsetting session variables
+        unset($_SESSION['edit_profile_username']);        
+        unset($_SESSION['username']);
+        unset($_SESSION['user_id']);
+        unset($_SESSION['admin']);
         
-        //Removing user from all teams
-        $team_member_query = $this->
-        
-        //Deleting the row
-        $this->db->delete('users', array('user_id' => $user_id)); 
-        
-        //Unsetting my session variable
-        unset($_SESSION['edit_profile_username']);
-        
-        $this->data['redirect'] = "Account deleted. You will be redirected in 5 seconds...";
-        sleep(5);
         redirect('../');
     }
     
