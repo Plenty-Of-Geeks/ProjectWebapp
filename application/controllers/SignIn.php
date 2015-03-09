@@ -19,6 +19,7 @@ class SignIn extends Application
     public function index()
     {        
         $this->data['pagebody'] = 'signin';
+        $this->load->helper('ffields');
         
         $user = $this->users->create();
         
@@ -28,7 +29,8 @@ class SignIn extends Application
         $this->data['submit'] = makeSubmitButton( 
                 'Sign In', 
                 "Click here to validate the user data", 
-                'btn-success'); 
+                'button floatLeft'); 
+        $this->data['signup'] = makeButton("/SignUp", "Sign Up", "button floatLeft");
         
         if (isset($_SESSION['login_error']) == 'wrongcredentials')
         {
