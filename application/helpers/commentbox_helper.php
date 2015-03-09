@@ -25,6 +25,14 @@ if (!function_exists('makeCommentBox')) {
         
         foreach($comments as $comment)
         {
+            if(($userDat = $CI->users->get($comment->poster_id)) != null)
+            {
+                $comment->user = '<a class="userLink" href="/Account/profile/' . $userDat->username . '">' . $userDat->username . '</a>';
+            }
+            else
+            {
+                $comment->user = "<s>Deleted User</s>";
+            }
             $comment->adminContent = "";
             if($admin)
             {

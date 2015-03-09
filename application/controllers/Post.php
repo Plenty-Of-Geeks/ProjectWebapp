@@ -328,7 +328,7 @@ class Post extends Application {
         $this->data['newCommentForm'] = $currUser != null ?
             makeContentForm("/Post/postComment/". $currPostInfo->post_id, "", 
                             "", "button", "Comment", "Add Comment") :
-            makeButton("../SignIn", "Sign In", "button center");
+            makeButton("/SignIn", "Sign In", "button center");
         //Fill up the comments in the current post
         $this->data['commentsBox'] = makeCommentBox($allComments, $commentToEdit, $currUser, $isAdmin);
         
