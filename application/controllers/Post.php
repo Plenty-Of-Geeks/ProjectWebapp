@@ -19,7 +19,6 @@ class Post extends Application {
         $this->load->model('users');
         $this->load->helpers('formfields');
         $this->load->library('form_validation');
-        
     }
     
     public function index()
@@ -47,6 +46,11 @@ class Post extends Application {
             $this->data['latestposts'] = $this->parser->parse('_latestposts', $this->data, true);
         }
 
+        //unset sign up error
+        unset($_SESSION['signup_error']);
+        //unset sign in error
+        unset($_SESSION['login_error']);
+                
         $this->render();
     }
     
@@ -68,7 +72,7 @@ class Post extends Application {
         $this->data['fsubmit'] = makeSubmitButton( 
                 'Add Post', 
                 "Click here to validate the post data", 
-                'btn-success'); 
+                'button'); 
         
         $this->render();
     }
@@ -177,8 +181,7 @@ class Post extends Application {
         $team->team_name = $this->input->post('team_name');
         $team->max_team_count = $this->input->post('max_team_count');
         $team->team_count = 1;
-        
-        
+       
         if (empty($team->team_id))
         {
             $this->teams->add($team);
@@ -238,44 +241,31 @@ class Post extends Application {
         $_SESSION['currentPost'] = $this->input->post('postId');
         
         redirect('../Post/showPost');
-
     }
     
-    public function showPost()
+    public function showPost($currPost)
     {
-        //Set up the base pagebody
+       //Set up the base pagebody
         $this->data['pagebody'] = 'show_post';
+        //Load helpers
         $this->load->helper('commentbox');
         $this->load->helper('button');
+        $this->load->helper('ffields');
         
-        //Create a new row for posts
-        $comment = $this->comments->create();
+        //initialize information of the current post
+        $allComments = $this->comments->some('post_id', $currPost);
+        $currPostInfo = $this->posts->get_full($currPost);
+        $this->data['currPost'] = $currPost;
         
-        $this->data['comments'] = $this->comments->some('post_id', $_SESSION['currentPost']);
+        //initialize information about logged in user
+        $isAdmin  = isset($_SESSION['admin'])   ? $_SESSION['admin']   : false;
+        $currUser = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
+        $commentToEdit = isset($_SESSION['commentToEdit']) ? $_SESSION['commentToEdit'] : null;
         
-        $sourcePost = $this->posts->get_full($_SESSION['currentPost']);
-
-        //Fill the form data for the comment box
-        if(isset($_SESSION['user_id']))
-        {
-            $this->data['title']   = makeTextField('Title', 'title', $comment->title); 
-            $this->data['content'] = makeTextArea('Comment', 'content', $comment->content, "", 1000, 25, 5, false);
-            $this->data['fsubmit'] = makeSubmitButton(  
-                'Add Comment', 
-                "Click here to validate the post data", 
-                'btn-success button');
-            $this->data['signin'] = "";
-        }
-        else
-        {
-            $this->data['title'] = $this->data['content'] = "";
-            $this->data['fsubmit'] = "";
-            
-            $this->data['signin'] = makePHPButton("../SignIn", "Sign In", "a", "a", "button center");
-        }
+        
         
         //TEAMLIST
-        $curTeamID = $sourcePost->team_id;//get tareget team_Id
+        $curTeamID = $currPostInfo->team_id;//get tareget team_Id
         //get all team members from target team
         $team_members = $this->team_members->some('team_id', $curTeamID);
         
@@ -290,41 +280,75 @@ class Post extends Application {
             array_push($usernames, $user);          
         }*/
         
+        foreach ($teams_users_members as $team_member) $team_member->post_id = $currPostInfo->post_id;       
+        
+        
         //team members
         $this->data['teamlistview'] = $teams_users_members;
         
         //Load the various view fragments
-        if (isset($_SESSION['admin']))
+        if ($isAdmin || $currUser === $currPostInfo->poster_id)
         {
-            //$curPost = $this->posts->
-            $sourcePost->title = makeTextField('Title', 'title', $sourcePost->title);
-            $sourcePost->content = makeTextArea('Comment', 'content', $sourcePost->content, "", 1000, 25, 5, false);
+            $currPostInfo->title =
+                $this->createEditField(
+                    "/Admin/editPostTitle/" . $currPostInfo->post_id,
+                    "Title", 
+                    "title", 
+                    $currPostInfo->title, 
+                    "makeTextField");
             
-            $sourcePost->max_team_count = makeTextArea('Max Number of Team Members:', 'mtc', $sourcePost->max_team_count, "", 2, 2, 1, false);
+            $currPostInfo->content =
+                $this->createEditField(
+                    "/Admin/editPostDesc/" . $currPostInfo->post_id,
+                    "Description", 
+                    "content", 
+                    $currPostInfo->content, 
+                    "makeTextArea");
             
-            $this->data['postInfo'] = $this->parser->parse('_justoneedit', $sourcePost, true);
+            $currPostInfo->max_team_count =
+                $this->createEditField(
+                    "/Admin/editPostMembersNum/" . $currPostInfo->post_id,
+                    "Max Number of Team Members:", 
+                    "mtc", 
+                    $currPostInfo->max_team_count, 
+                    "makeTextField");
+            
             //team members
             $this->data['teamlist'] = $this->parser->parse('_teamlistedit', $this->data, true);
         }
         else
         {
-            $this->data['postInfo'] = $this->parser->parse('_justone', $sourcePost, true);
             //team members
             $this->data['teamlist'] = $this->parser->parse('_teamlist', $this->data, true);
         }
         
-        $this->data['newComment'] = $this->parser->parse('createcomment', $this->data, true);
-        $this->data['commentsBox'] = makeCommentBox($this->data['comments'], 
-                                                    isset($_SESSION['admin']),
-            isset($_SESSION['commentToEdit'])       ? $_SESSION['commentToEdit']   : null);
+        //Fill the current post info
+        $this->data['postInfo'] = $this->parser->parse('_justone', $currPostInfo, true);
+        //Fill the form data for the comment box
+        $this->data['newCommentForm'] = $currUser != null ?
+            makeContentForm("/Post/postComment/". $currPostInfo->post_id, "", 
+                            "", "button", "Comment", "Add Comment") :
+            makeButton("../SignIn", "Sign In", "button center");
+        //Fill up the comments in the current post
+        $this->data['commentsBox'] = makeCommentBox($allComments, $commentToEdit, $currUser, $isAdmin);
         
         $this->render();
     }
     
+    public function createEditField($handler, $title, $name, $val, $field, $extras = "")
+    {
+        $string = '';
+        
+        $string .= '<form class="center" action="' . $handler .'" method="post">';
+        $string .= $field($title, $name, $val);
+        $string .= "<button type='submit' class='button'>Save</button>";
+        $string .= '</form>';
+        
+        return $string;
+                        
+    }    
     
-    
-    
-    public function postComment()
+    public function postComment($toPost)
     {
         
         if(!isset($_SESSION['user_id'])) redirect("../SignIn");
@@ -332,37 +356,29 @@ class Post extends Application {
         $record = $this->comments->create();
         
         // Extract submitted fields
-        $record->post_id = $_SESSION['currentPost'];
-        $record->title   = $this->input->post('title');
-        $record->content = $this->input->post('content');
-        $record->poster_id = $_SESSION['user_id'];
-        
-
-        $this->data['latestposts'] = $this->parser->parse('_latestposts', $this->data, true);
-        
+        $record->post_id    = $toPost;
+        $record->title      = $this->input->post('title');
+        $record->content    = $this->input->post('content');
+        $record->poster_id  = $_SESSION['user_id'];
+                
         // Save stuff
         if (empty($record->comment_id)) $this->comments->add($record); 
         else $this->comments->update($record); 
         
-        redirect('../Post/showPost');
+        redirect('../Post/showPost/' . $toPost);
     }
         
-    public function join_team()
+    public function join_team($teamId)
     {    
-        if (!isset($_SESSION['user_id']))
-        {
-            redirect('../SignIn');
-        }
-        
-        $team_id = $this->input->post('teamId');
-        
+        if (!isset($_SESSION['user_id'])) redirect('../SignIn');
+                
         $team_member = $this->team_members->create();
-        $team_member->team_id = $team_id;
+        $team_member->team_id = $teamId;
         $team_member->user_id = $_SESSION['user_id'];
         $this->team_members->add($team_member);
         
         /* Update Team Record */
-        $team_record = $this->teams->get($team_id);
+        $team_record = $this->teams->get($teamId);
         $team_record->team_count = $team_record->team_count + 1;
         $this->teams->update($team_record);
         

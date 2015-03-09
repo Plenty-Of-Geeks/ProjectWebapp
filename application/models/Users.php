@@ -27,5 +27,15 @@ class Users extends MY_Model
             return $query->result()[0];
          }
     }
+    // Return filtered records as an array of records
+    function some_like($what, $which) {
+        $this->db->order_by($this->_keyField, 'asc');
+        if (($what == 'period') && ($which < 9)) {
+            $this->db->like($what, $which); // special treatment for period
+        } else
+            $this->db->like($what, $which);
+        $query = $this->db->get($this->_tableName);
+        return $query->result();
+    }
 }
 

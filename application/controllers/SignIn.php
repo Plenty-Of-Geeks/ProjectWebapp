@@ -39,7 +39,9 @@ class SignIn extends Application
             $this->data['message'] = '';
         }
         
-       
+        //unset sign up error
+        unset($_SESSION['signup_error']);
+        
         $this->render();
     }
     
@@ -74,6 +76,7 @@ class SignIn extends Application
         unset($_SESSION['username']);
         unset($_SESSION['user_id']);
         unset($_SESSION['admin']);
+        unset($_SESSION['edit_profile_username']);
         redirect('/Welcome');
     }
 }

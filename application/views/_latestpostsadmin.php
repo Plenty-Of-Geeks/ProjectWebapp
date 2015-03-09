@@ -23,19 +23,19 @@
                 Party: {team_count} / {max_team_count}
             </div>
             <div class='center'>
-                    <button class="button" onclick='openDesc({post_id})'>Read more</button>
-                <form action="/Post/comment" method="post">
-                    <input name='postId' value='{post_id}' hidden="true" />
-                    <button type='submit' class="button">Comments / Edit</button>
-                </form>
-                <form action="/Post/join_team" method="post">
-                    <input name='teamId' value='{team_id}' hidden="true" />
-                    <button type='submit' class="button {isFull} {hasJoined}">Join</button>
-                </form>
-                 <form action="/Admin/deletePost" method="post">
-                    <input name='postId' value='{post_id}' hidden="true" />
-                    <button type='submit' class='button'>Delete</button>
-                 </form>
+                <div class="button">
+                    <a onclick='openDesc({post_id})'>Read more</a>
+                </div>
+                <div class="button">
+                    <a href="/Post/showPost/{post_id}">Comment/Edit</a>
+                </div>
+                <br />
+                <div class=" button {isFull} {hasJoined}">
+                    <a href="/Post/join_team/{team_id}" > Join </a>
+                </div>
+                <div class="button">
+                    <a href="/Admin/deletePost/{post_id}">Delete</a>
+                </div>
             </div>
     </div>
 </div>                                                                                                                                                      

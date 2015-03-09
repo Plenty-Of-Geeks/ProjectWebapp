@@ -23,20 +23,16 @@ class Admin extends Application
     public function index()
     {        
         
-        $this->data['pagebody'] = 'admin';
+        $this->data['pagebody'] = 'search';
         
         $this->data['username'] = makeTextField('Username', 'username', '');
         
-        $this->data['search'] = makeSubmitButton( 
-                'Search', 
-                "Click here to search for user", 
-                'btn-success'); 
-         
+        $this->data['searchlist'] = '';
+        $this->data['resultslabel'] = '';
         $this->render();
     }
-    public function deletePost()
+    public function deletePost($targetPostID)
     {
-        $targetPostID = $this->input->post('postId');
         $targetPost = $this->posts->get($targetPostID);
         
         $teamID = $targetPost->team_id;
@@ -68,18 +64,17 @@ class Admin extends Application
         redirect('/Post');
     }
     
-    public function deleteComment()
+    public function deleteComment($postId, $cId)
     {
-        $this->comments->delete($this->input->post('cId'));
-        redirect('../Post/showPost');
+        $this->comments->delete($cId);
+        redirect('../Post/showPost/' . $postId);
     }
-    public function editComment()
+    public function editComment($postId, $cId)
     {
-        print_r($this->input->post('cId'));
-        $_SESSION['commentToEdit'] = $this->input->post('cId');
-        redirect('../Post/showPost');
+        $_SESSION['commentToEdit'] = $cId;
+        redirect('../Post/showPost/' . $postId);
     }
-    public function saveComment()
+    public function saveComment($postId)
     {
         if(!isset($_SESSION['user_id'])) redirect("../SignIn");
         
@@ -94,12 +89,11 @@ class Admin extends Application
         
         unset($_SESSION['commentToEdit']);
         
-        redirect('../Post/showPost');
+        redirect('../Post/showPost/' . $postId);
     }
     
-    public function editPostTitle()
+    public function editPostTitle($targetPostID)
     {
-        $targetPostID = $this->input->post('postId');
         $targetPost = $this->posts->get($targetPostID);
         
         $teamID = $targetPost->team_id;
@@ -117,12 +111,11 @@ class Admin extends Application
         
         
         //go back to showpost
-        redirect('../Post/showPost');
+        redirect('../Post/showPost/' . $targetPostID);
         
     }
-    public function editPostDesc()
+    public function editPostDesc($targetPostID)
     {
-        $targetPostID = $this->input->post('postId');
         $targetPost = $this->posts->get($targetPostID);
         
         $teamID = $targetPost->team_id;
@@ -138,9 +131,9 @@ class Admin extends Application
         $this->posts->update($targetPost);
         
         //go back to showpost
-        redirect('../Post/showPost');
+        redirect('../Post/showPost/' . $targetPostID);
     }
-    public function deletePostMembers()
+    public function deletePostMembers($postId)
     {
         $teamMemberID = $this->input->post('teamMemberId');
         $teamID = $this->input->post('teamId');
@@ -158,12 +151,11 @@ class Admin extends Application
         $this->team_members->delete($teamMemberID);
         
         //go back to showpost
-        redirect('../Post/showPost');
+        redirect('../Post/showPost/' . $postId);
     }
     
-    public function editPostMembersNum()
+    public function editPostMembersNum($targetPostID)
     {
-        $targetPostID = $this->input->post('postId');
         $targetPost = $this->posts->get($targetPostID);
         
         $teamID = $targetPost->team_id;
@@ -187,22 +179,26 @@ class Admin extends Application
         $this->teams->update($team);
        
         //go back to showpost
-        redirect('../Post/showPost'); 
+        redirect('../Post/showPost/' . $targetPostID);
     }
     public function search()
     {
-        $users = $this->users->some('username', $this->input->post('username'));
-        foreach ($users as $user)
-        {
-            if ($user->username == $this->input->post('username'))
-            {
-                $_SESSION['username'] = $user->username;
-                $_SESSION['user_id'] = $user->user_id;
-                redirect('/Post');
-            }
-        }
-       
-        redirect('/Welcome');
+        $this->data['pagebody'] = 'search';
+        
+        $this->data['username'] = makeTextField('Username', 'username', '');
+        
+        $searchusername = $this->input->post('username');
+        
+        $users = $this->users->some_like('username', $searchusername);
+        
+        $this->data['userlistview'] = $users;
+        
+        $this->data['searchlist'] = $this->parser->parse('_searchlist', $this->data, true);
+
+        $this->data['resultslabel'] = 'Search Results:';
+        
+        $this->render();
+        //redirect('/Admin/search');
     }
     
     public function logout()

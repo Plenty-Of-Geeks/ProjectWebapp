@@ -84,6 +84,11 @@ class Welcome extends Application {
                     $this->data['latestposts'] = $this->parser->parse('_latestposts', $this->data, true);
                 }
                 
+                //unset sign up error
+                unset($_SESSION['signup_error']);
+                //unset sign in error
+                unset($_SESSION['login_error']);
+                
                 $this->render();
 	}
 }
