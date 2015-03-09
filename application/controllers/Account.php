@@ -67,7 +67,7 @@ class Account extends Application
         {
             $this->data['edit'] = 
                 '<br/>
-                <a href="/Account/edit/"> Click here to edit your profile </a>';
+                <a href="/Account/edit/"> Click here to change your password </a>';
             $this->data['delete'] = 
                 '<br/>
                  <a href="/Account/delete/"> Click here to delete your profile </a>';
@@ -183,24 +183,35 @@ class Account extends Application
         //Getting User's info from User table
         $query = $this->users->get_by_username($_SESSION['edit_profile_username']);
         
+        //Setting data to empty strings
+        $this->data['form_username'] = '';
+        $this->data['form_email'] = '';
+        $this->data['form_password'] = '';
+        $this->data['save'] = '';
+        $this->data['cancel'] = '';
+        $this->data['form_confirm_password'] = '';
+        
         //Set the username Textbox to edit
-        $this->data['form_username'] = makeTextField('User Name','username',$query->username );
+        //$this->data['form_username'] = makeTextField('User Name','username',$query->username );
      
 
-        //Set the email Textbox to edit
-        $this->data['form_email'] = makeTextField('Email', 'email', $query->email);
-        
         //Set the password Textbox to edit
         $this->data['form_password'] = makePasswordField('New Password', 'password', '*****');
+        
+        //Set the password confirmation Textbox to edit
+        $this->data['form_confirm_password'] = makePasswordField('Confirm New Password', 'confirm_password', '*****');
         
         //Making the submit button
         $this->data['save'] = makeSubmitButton('Save', 'save_button', 'button floatLeft');
 
+        //Making the cancel button
+        $this->data['cancel'] = '<div class="button"> '
+                . '<a href="../profile/'.$_SESSION['edit_profile_username'].'">Cancel</a></div>';
         
         $this->render();
     }
     
-    public function edit_save($username)
+    public function edit_save()
     {
         //Safety check if someone is directly typing it into URL
         if(!isset($_SESSION['edit_profile_username']))
@@ -211,91 +222,54 @@ class Account extends Application
         $this->data['pagebody'] = 'account_edit_save';
 
         //Getting the variables from the form submit
-        $username = $this->input->post('username');
+        $username = $_SESSION['edit_profile_username'];
         $email = $this->input->post('email');
         $password = $this->input->post('password');
+        $password_confirm = $this->input->post('confirm_password');
 
         //Setting view outputs
         $this->data['username'] = '';
         $this->data['email'] = '';
         $this->data['password'] = '';
-
+        $this->data['password_confirm'] = '';
+        $this->data['result'] = '';
 
         //Getting User's info from User table
         $query = $this->users->get_by_username($username);
 
+        
+        if($this->password_validataion($password, $password_confirm))
+        {
+            $this->data['result'] = 'Password changed';
+            $query->password = $password;
+            $this->users->update($query);
 
-        //Final array to update the db with        
-        $db_array = '';
-
-        //Validate email
-        if(!$this->email_validataion($email))
-        {
-            $this->data['email'] = "Email is invalid";
-            $email = FALSE;
         }
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        //Check if changes were made to username 0 is equal
-        if(strcmp($query->username, $username) != 0)
+        else
         {
-            //Changes were made, check validity
-            //Checking if username exists
-            if($this->users->get_by_username($username) != NULL)
-            {
-               $this->data['username'] = '<strong>USERNAME TAKEN</strong>';
-               $db_array = FALSE;
-            }
-            else //New username is valid
-            {                                
-                $this->data['username'] = '<strong>Username Updated</strong> <br/>';
-            }            
-        }
-        
-        
-        //Check if changes were made to email 0 is equal
-        //db_array HAS TO BE NOT FALSE. if db_array is false
-        //that means username was not valid so dont update
-        if(strcmp($query->email, $email) != 0 && db_array != FALSE)
-        {
-            //Changes were made, check validity
-            //Checking for '@' and a '.' and not empty string
-            if(strcmp($email,'') == 0)
-            {
-               $this->data['username'] = '<strong>USERNAME TAKEN</strong>';
-            }
-            else //New username is valid
-            {                                
-                $this->data['username'] = '<strong>Username Updated</strong> <br/>';
-            }            
+            $this->data['result'] = 'The password did not match. Password was not changed';
         }
 
+
+        //unset Session variable
+       unset($_SESSION['edit_profile_username']);
         $this->render();
     }   
 
 
-    private function email_validataion($email)
+    private function password_validataion($password, $password_confirm)
     {
-        //Checking for empty string
-        if(strcmp($email,'') == 0)
-                return FALSE;
-
-        //Checking for @
-        if (strpos($email,'@') === false)
-                return FALSE;
-
-        //Checking for .
-        if (strpos($email,'.') === false)
-            return FALSE;   
-
-        
-        return TRUE;
+        //Checking if equal and not empty string
+        if(strcmp($password, $password_confirm) == 0)
+        {
+            return TRUE;
+        }
+        else if(strcmp($password,'') == 0 || strcmp($password_confirm,'') == 0)
+        {
+            return False;
+        }  else 
+        {
+            return false;
+        }
     }
 }

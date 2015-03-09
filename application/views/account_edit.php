@@ -1,4 +1,4 @@
-<form action="../Account/edit_save/" method="post">
+<form action="../edit_save/" method="post">
     <br/>
     {form_username}
     <br/>
@@ -6,6 +6,8 @@
     <br/>
     {form_password}
     <br/>
+    {form_confirm_password}
+    <br/>
     {save}
 </form>
- {save}
+ {cancel}
