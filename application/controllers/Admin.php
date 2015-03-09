@@ -23,15 +23,12 @@ class Admin extends Application
     public function index()
     {        
         
-        $this->data['pagebody'] = 'admin';
+        $this->data['pagebody'] = 'search';
         
         $this->data['username'] = makeTextField('Username', 'username', '');
         
-        $this->data['search'] = makeSubmitButton( 
-                'Search', 
-                "Click here to search for user", 
-                'btn-success'); 
-         
+        $this->data['searchlist'] = '';
+        $this->data['resultslabel'] = '';
         $this->render();
     }
     public function deletePost()
@@ -191,18 +188,22 @@ class Admin extends Application
     }
     public function search()
     {
-        $users = $this->users->some('username', $this->input->post('username'));
-        foreach ($users as $user)
-        {
-            if ($user->username == $this->input->post('username'))
-            {
-                $_SESSION['username'] = $user->username;
-                $_SESSION['user_id'] = $user->user_id;
-                redirect('/Post');
-            }
-        }
-       
-        redirect('/Welcome');
+        $this->data['pagebody'] = 'search';
+        
+        $this->data['username'] = makeTextField('Username', 'username', '');
+        
+        $searchusername = $this->input->post('username');
+        
+        $users = $this->users->some_like('username', $searchusername);
+        
+        $this->data['userlistview'] = $users;
+        
+        $this->data['searchlist'] = $this->parser->parse('_searchlist', $this->data, true);
+
+        $this->data['resultslabel'] = 'Search Results:';
+        
+        $this->render();
+        //redirect('/Admin/search');
     }
     
     public function logout()
