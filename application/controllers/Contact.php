@@ -11,6 +11,12 @@ class Contact extends Application {
     public function index()
 	{
 		$this->data['pagebody'] = 'contact';
+                
+                //unset sign up error
+                unset($_SESSION['signup_error']);
+                //unset sign in error
+                unset($_SESSION['login_error']);
+                
                 $this->render();
 	}   
 

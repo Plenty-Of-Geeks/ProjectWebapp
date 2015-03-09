@@ -41,6 +41,9 @@ class SignUp extends Application
                 'Sign Up', 
                 "Click here to validate the user data", 
                 'btn-success'); 
+
+        //unset sign in error
+        unset($_SESSION['login_error']);
         
         $this->render();
     }

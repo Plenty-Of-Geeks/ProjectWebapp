@@ -42,6 +42,10 @@ class Account extends Application
         //Negatively checking
       //  if(!isset($_SESSION['user_id']) || $_SESSION['user_id'] != 
         
+        //unset sign up error
+        unset($_SESSION['signup_error']);
+        //unset sign in error
+        unset($_SESSION['login_error']);
       
         $this->render();
     }
