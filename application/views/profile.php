@@ -24,6 +24,15 @@
     <a href="/Account/get_teams"> Click here to see all the teams you're in </a>
     {edit}  
     {delete}
+    <p> Upload Avatar:</p>
+    {multi_part_upload}
+
+    <input type="file" name="userfile" size="20" />
+
+    <br /><br />
+
+    <input type="submit" value="upload" />
+
     </div>
 
 </div>

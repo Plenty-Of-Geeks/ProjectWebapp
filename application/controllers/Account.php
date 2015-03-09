@@ -16,7 +16,7 @@ class Account extends Application
         $this->load->helper('formfields');        
         $this->load->model('posts');
         $this->load->model('users');
-      
+        $this->load->helper('form');
     }
 	
     /** The index. This will only get called when user clicks the menu "account" tab **/
@@ -73,6 +73,8 @@ class Account extends Application
             $this->data['delete'] = 
                 '<br/>
                  <a href="/Account/delete/"> Click here to delete your profile </a>';
+            $this->data['multi_part_upload'] =
+               form_open_multipart('Account/do_upload');
             $_SESSION['edit_profile_username'] = $username;
             
         }else
@@ -118,6 +120,43 @@ class Account extends Application
        
        $this->render();
     }
+    
+    public function do_upload()
+    {
+        
+        $config['upload_path']          = base_url() . '../assets/images/profile_pics/';
+        $config['allowed_types']        = 'gif|jpg|png|ico';
+        $config['file_name']            = $_SESSION['edit_profile_username'];
+        $config['max_size']             = 0;
+        $config['max_width']            = 0;
+        $config['max_height']           = 0;
+
+        $upload_path = $config['upload_path'] . $config['file_name'];
+        $this->load->library('upload', $config);
+
+        
+        
+        if ( ! $this->upload->do_upload())
+        {
+                $error = array('error' => $this->upload->display_errors());
+
+                print_r($error);
+                print_r('    woah    ');
+                print_r($this->upload->data());
+                print_r('    woah    ');
+                print_r($config);
+                
+                //$this->load->view('upload_form', $error);
+                //redirect('../Welcome');
+        }
+        else
+        {
+            $tempuser = $this->users->get_record('username', $_SESSION['edit_profile_username']);
+            $tempuser->profile_picture = $upload_path;
+            $this->users->update($tempuser);
+        }
+    }
+
     
     //Deleting profiles
     public function delete()
@@ -262,6 +301,10 @@ class Account extends Application
         $this->render();
     }   
 
+    public function upload_avatar()
+    {
+        
+    }
 
     private function password_validataion($password, $password_confirm)
     {
