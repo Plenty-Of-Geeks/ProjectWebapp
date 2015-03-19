@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 09, 2015 at 02:19 AM
+-- Generation Time: Mar 09, 2015 at 05:33 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `title` text NOT NULL,
   `content` text NOT NULL,
   `post_id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -46,14 +46,14 @@ CREATE TABLE IF NOT EXISTS `posts` (
   `content` text NOT NULL,
   `poster_id` int(11) NOT NULL,
   `team_id` int(11) unsigned NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `posts`
 --
 
 INSERT INTO `posts` (`post_id`, `title`, `content`, `poster_id`, `team_id`) VALUES
-(53, 'Galactic Warrior', 'Kill them aliens.', 1, 54);
+(1, 'The Kat Game', 'Kat is a cat who love Kit Kats and therefore buys lots of them.  Kat''s owner, Kat, wants to make sure Kat is eating well, so Kat ends up buying salads instead.  Who bought the salad?', 4, 1);
 
 -- --------------------------------------------------------
 
@@ -66,14 +66,14 @@ CREATE TABLE IF NOT EXISTS `teams` (
   `team_count` int(11) NOT NULL,
   `max_team_count` int(11) NOT NULL,
   `team_name` text NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `teams`
 --
 
 INSERT INTO `teams` (`team_id`, `team_count`, `max_team_count`, `team_name`) VALUES
-(54, 1, 5, 'Team Glaxy');
+(1, 2, 5, 'Team Kat');
 
 -- --------------------------------------------------------
 
@@ -85,14 +85,15 @@ CREATE TABLE IF NOT EXISTS `team_members` (
 `team_member_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `team_id` int(11) unsigned NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `team_members`
 --
 
 INSERT INTO `team_members` (`team_member_id`, `user_id`, `team_id`) VALUES
-(31, 1, 54);
+(1, 4, 1),
+(2, 6, 1);
 
 -- --------------------------------------------------------
 
@@ -107,16 +108,16 @@ CREATE TABLE IF NOT EXISTS `users` (
   `email` text NOT NULL,
   `admin` tinyint(1) NOT NULL,
   `profile_picture` text NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`user_id`, `username`, `password`, `email`, `admin`, `profile_picture`) VALUES
-(1, 'katnapped', 'wael274', 'katnapped@hotmail.com', 1, '/assets/images/profile_pic.png'),
-(2, 'goggy', 'derp', 'derp@hotmail.com', 0, '/assets/images/profile_pic.png'),
-(3, 'rukat', 'katnapped', 'katnapped@hotmail.com', 0, '/assets/images/profile_pic.png');
+(4, 'katnapped', 'katnapped', 'katnapped@hotmail.com', 0, '/assets/images/profile_pic.png'),
+(5, 'admin', 'admin', 'admin@admin.com', 1, '/assets/images/profile_pic.png'),
+(6, 'guest', 'guest', 'guest@guest.com', 0, '/assets/images/profile_pic.png');
 
 --
 -- Indexes for dumped tables
@@ -160,27 +161,27 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=54;
+MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `teams`
 --
 ALTER TABLE `teams`
-MODIFY `team_id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=55;
+MODIFY `team_id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `team_members`
 --
 ALTER TABLE `team_members`
-MODIFY `team_member_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=32;
+MODIFY `team_member_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- Constraints for dumped tables
 --

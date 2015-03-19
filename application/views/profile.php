@@ -22,6 +22,15 @@
     <a href="/Account/show_posts/{username}"> Click here to get all {username}'s posts </a>
     {edit}  
     {delete}
+    <p> Upload Avatar:</p>
+    {multi_part_upload}
+
+    <input type="file" name="userfile" size="20" />
+
+    <br /><br />
+
+    <input type="submit" value="upload" />
+
     </div>
 
 </div>
